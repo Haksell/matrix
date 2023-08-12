@@ -1,23 +1,37 @@
+# TODO matrix transpose
+
 from copy import deepcopy
 import numbers
+from vector import Vector
 
 
 class Matrix:
-    def __init__(self, values):
-        assert type(values) == list
-        assert all(type(x) == list for x in values)
-        assert all(isinstance(y, numbers.Number) for x in values for y in x)
-        assert all(len(x) == len(values[0]) for x in values)
-        self.__values = deepcopy(values)
-        self.__height = len(self.__values)
-        self.__width = len(self.__values[0]) if self.__height else 0
+    def __init__(self, data):
+        if type(data) == list:
+            assert all(type(x) == list for x in data)
+            assert all(isinstance(y, numbers.Number) for x in data for y in x)
+            assert all(len(x) == len(data[0]) for x in data)
+            self.__height = len(data)
+            self.__width = len(data[0]) if self.__height else 0
+            self.__data = deepcopy(data)
+        elif type(data) == Vector:
+            self.__height = len(data)
+            self.__width = 1
+            self.__data = [[x] for x in data]
+        else:
+            raise TypeError(
+                f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
+            )
 
-    @property
-    def shape(self):
-        return (self.__height, self.__width)
+    def __iter__(self):
+        yield from self.__data
 
     def __len__(self):
         return self.__height
 
     def __repr__(self):
-        return f"Matrix({self.__values})"
+        return f"Matrix({self.__data})"
+
+    @property
+    def shape(self):
+        return (self.__height, self.__width)
