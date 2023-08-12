@@ -3,7 +3,7 @@
 # TODO examples with complex numbers
 
 test:
-	pytest -ra -vv --cov=classes
+	pytest -ra -vv --cov
 
 clean:
 	rm -rf __pycache__ .pytest_cache .coverage

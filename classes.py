@@ -21,6 +21,9 @@ class Vector:
                 f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
             )
 
+    def __eq__(self, other):
+        return len(self) == len(other) and all(x == y for x, y in zip(self, other))
+
     def __getitem__(self, idx):
         return self.__data[idx]
 
@@ -81,6 +84,9 @@ class Matrix:
             raise TypeError(
                 f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
             )
+
+    def __eq__(self, other):
+        return self.shape == other.shape and all(x == y for x, y in zip(self, other))
 
     def __getitem__(self, idx):
         return self.__data[idx]
