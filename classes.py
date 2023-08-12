@@ -4,10 +4,7 @@ import numbers
 
 class Vector:
     def __init__(self, data):
-        if type(data) == list:
-            assert all(isinstance(x, numbers.Number) for x in data)
-            self.__data = data.copy()
-        elif type(data) == Matrix:
+        if type(data) == Matrix:
             if data.height == 1:
                 self.__data = data[0].copy()
             elif data.width == 1:
@@ -17,9 +14,14 @@ class Vector:
                     f"Matrix must be a row or column vector, not {data.height}x{data.width}"
                 )
         else:
-            raise TypeError(
-                f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
-            )
+            try:
+                data = list(data)
+                assert all(isinstance(x, numbers.Number) for x in data)
+                self.__data = data.copy()
+            except TypeError:
+                raise TypeError(
+                    f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
+                )
 
     def __eq__(self, other):
         return len(self) == len(other) and all(x == y for x, y in zip(self, other))

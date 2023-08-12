@@ -10,13 +10,11 @@ from classes import Vector
 def test_init():
     Vector([])
     Vector([42])
-    Vector([42, pi, 1j])
+    assert Vector([42, pi, 1j]) == Vector((42, pi, 1j))
     with pytest.raises(Exception):
         Vector()
     with pytest.raises(Exception):
         Vector(42)
-    with pytest.raises(Exception):
-        Vector((42, pi, 1j))
 
 
 def test_len():

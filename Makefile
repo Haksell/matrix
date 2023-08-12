@@ -1,4 +1,5 @@
 # TODO add mypy
+# TODO use mypy everywhere instead of asserts
 # TODO add pylint
 # TODO examples with complex numbers
 
