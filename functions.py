@@ -1,4 +1,3 @@
-from operator import mul
 from classes import Vector
 
 
@@ -7,4 +6,4 @@ def linear_combination(vecs, coefs):
     assert len(vecs) == len(coefs)
     size = len(vecs[0])
     assert all(len(x) == size for x in vecs)
-    return sum(map(mul, vecs, coefs), Vector([0] * size))
+    return sum(map(Vector.__mul__, vecs, coefs), Vector([0] * size))
