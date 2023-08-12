@@ -1,4 +1,4 @@
-from copy import deepcopy
+# add, iadd, sub, isub, mul, imul, rmul
 import numbers
 
 
@@ -13,16 +13,16 @@ class Vector:
             elif data.width == 1:
                 self.__data = [x[0] for x in data]
             else:
-                raise TypeError(
+                raise ValueError(
                     f"Matrix must be a row or column vector, not {data.shape}"
                 )
         else:
             raise TypeError(
                 f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
             )
-        assert type(data) == list
-        assert all(isinstance(x, numbers.Number) for x in data)
-        self.__data = data.copy()
+
+    def __getitem__(self, idx):
+        return self.__data[idx]
 
     def __iter__(self):
         yield from self.__data
@@ -33,27 +33,56 @@ class Vector:
     def __repr__(self):
         return f"Vector({self.__data})"
 
+    def __add__(self, other):
+        assert len(self) == len(other)
+        return Vector([x + y for x, y in zip(self, other)])
+
+    def __iadd__(self, other):
+        assert len(self) == len(other)
+        for i, x in enumerate(other):
+            self.__data[i] += x
+        return self
+
+    def __sub__(self, other):
+        assert len(self) == len(other)
+        return Vector([x - y for x, y in zip(self, other)])
+
+    def __isub__(self, other):
+        assert len(self) == len(other)
+        for i, x in enumerate(other):
+            self.__data[i] -= x
+        return self
+
+    def __mul__(self, x):
+        return Vector([x * y for y in self])
+
+    __rmul__ = __mul__
+
+    def __imul__(self, x):
+        for i in range(len(self)):
+            self.__data[i] *= x
+        return self
+
 
 class Matrix:
     def __init__(self, data):
         if type(data) == list:
-            assert all(type(x) == list for x in data)
+            assert all(type(x) == list or type(x) == Vector for x in data)
             assert all(isinstance(y, numbers.Number) for x in data for y in x)
             assert len(data) == 0 or all(len(x) == len(data[0]) for x in data)
             self.__height = len(data)
             self.__width = len(data[0]) if self.__height else 0
-            self.__data = deepcopy(data)
+            self.__data = [Vector(x) for x in data]
         elif type(data) == Vector:
             self.__height = len(data)
             self.__width = 1
-            self.__data = [Vector(x) for x in data]
+            self.__data = [Vector([x]) for x in data]
         else:
             raise TypeError(
                 f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
             )
 
     def __getitem__(self, idx):
-        assert 0 <= idx < self.__height
         return self.__data[idx]
 
     def __iter__(self):
@@ -64,6 +93,36 @@ class Matrix:
 
     def __repr__(self):
         return f"Matrix({self.__data})"
+
+    def __add__(self, other):
+        assert self.shape == other.shape
+        return Matrix([x + y for x, y in zip(self, other)])
+
+    def __iadd__(self, other):
+        assert self.shape == other.shape
+        for i, x in enumerate(other):
+            self.__data[i] += x
+        return self
+
+    def __sub__(self, other):
+        assert self.shape == other.shape
+        return Vector([x - y for x, y in zip(self, other)])
+
+    def __isub__(self, other):
+        assert self.shape == other.shape
+        for i, x in enumerate(other):
+            self.__data[i] -= x
+        return self
+
+    def __mul__(self, x):
+        return Matrix([x * y for y in self])
+
+    __rmul__ = __mul__
+
+    def __imul__(self, x):
+        for i in range(len(self)):
+            self.__data[i] *= x
+        return self
 
     @property
     def height(self):
