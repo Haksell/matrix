@@ -1,3 +1,4 @@
+from copy import deepcopy
 import numbers
 
 
@@ -7,11 +8,16 @@ class Matrix:
         assert all(type(x) == list for x in values)
         assert all(isinstance(y, numbers.Number) for x in values for y in x)
         assert all(len(x) == len(values[0]) for x in values)
-        self.values = values.copy()
+        self.__values = deepcopy(values)
+        self.__height = len(self.__values)
+        self.__width = len(self.__values[0]) if self.__height else 0
 
     @property
     def shape(self):
-        return (len(self.values), len(self.values[0]) if self.values else 0)
+        return (self.__height, self.__width)
 
     def __len__(self):
-        return len(self.values)
+        return self.__height
+
+    def __repr__(self):
+        return f"Matrix({self.__values})"
