@@ -1,6 +1,9 @@
+# TODO test repr/str
+# TODO test_init_matrix
+
 from math import pi
 import pytest
-from vector import Vector
+from classes import Vector
 
 
 def test_init():
