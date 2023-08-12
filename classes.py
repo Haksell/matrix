@@ -9,12 +9,12 @@ class Vector:
             self.__data = data.copy()
         elif type(data) == Matrix:
             if data.height == 1:
-                self.__data = data[0]
+                self.__data = data[0].copy()
             elif data.width == 1:
                 self.__data = [x[0] for x in data]
             else:
                 raise ValueError(
-                    f"Matrix must be a row or column vector, not {data.shape}"
+                    f"Matrix must be a row or column vector, not {data.height}x{data.width}"
                 )
         else:
             raise TypeError(

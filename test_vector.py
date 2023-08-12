@@ -1,5 +1,6 @@
 # TODO test repr/str
 # TODO test_init_matrix
+# TODO test row and column vectors
 
 from math import pi
 import pytest
