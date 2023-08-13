@@ -1,4 +1,3 @@
-# add, iadd, sub, isub, mul, imul, rmul
 from math import sqrt
 from numbers import Number
 from utils import clamp
@@ -17,9 +16,9 @@ class Vector:
                 )
         else:
             try:
-                data = list(data)
-                assert all(isinstance(x, Number) for x in data)
-                self.__data = data.copy()
+                self.__data = list(data)
+                assert len(self.__data) > 0
+                assert all(isinstance(x, Number) for x in self.__data)
             except TypeError:
                 raise TypeError(
                     f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
@@ -96,9 +95,10 @@ class Matrix:
         if type(data) == list:
             assert all(type(x) == list or type(x) == Vector for x in data)
             assert all(isinstance(y, Number) for x in data for y in x)
-            assert len(data) == 0 or all(len(x) == len(data[0]) for x in data)
+            assert len(data) != 0 and len(data[0]) != 0
+            assert all(len(x) == len(data[0]) for x in data)
             self.__height = len(data)
-            self.__width = len(data[0]) if self.__height else 0
+            self.__width = len(data[0])
             self.__data = [Vector(x) for x in data]
         elif type(data) == Vector:
             self.__height = len(data)

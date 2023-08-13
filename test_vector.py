@@ -13,9 +13,10 @@ from utils import is_close
 
 
 def test_init():
-    Vector([])
     Vector([42])
     assert Vector([42, pi, 1j]) == Vector((42, pi, 1j))
+    with pytest.raises(Exception):
+        Vector([])
     with pytest.raises(Exception):
         Vector()
     with pytest.raises(Exception):
@@ -23,7 +24,6 @@ def test_init():
 
 
 def test_len():
-    assert len(Vector([])) == 0
     assert len(Vector([42])) == 1
     assert len(Vector([42, pi, 1j])) == 3
 
