@@ -48,3 +48,7 @@ def test_angle_cos():
     assert is_close(Vector([-1, 1]).angle_cos(Vector([1, -1])), -1)
     assert is_close(Vector([1, 2]).angle_cos(Vector([2, 4])), 1)
     assert is_close(Vector([1, 2, 3]).angle_cos(Vector([4, 5, 6])), 0.974631846)
+    with pytest.raises(Exception):
+        Vector(Vector([-1, 1]).angle_cos(Vector([0, 0])))
+    with pytest.raises(Exception):
+        Vector(Vector([-1, 1]).angle_cos(Vector([1, 2, 3])))
