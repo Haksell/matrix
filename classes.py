@@ -90,6 +90,16 @@ class Vector:
         c = (self @ other).real / (sn * on)
         return clamp(c, -1, 1)
 
+    def cross(self, other):
+        assert len(self) == len(other) == 3
+        return Vector(
+            [
+                self[1] * other[2] - self[2] * other[1],
+                self[2] * other[0] - self[0] * other[2],
+                self[0] * other[1] - self[1] * other[0],
+            ]
+        )
+
 
 class Matrix:
     def __init__(self, data):

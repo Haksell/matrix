@@ -52,3 +52,11 @@ def test_angle_cos():
         Vector(Vector([-1, 1]).angle_cos(Vector([0, 0])))
     with pytest.raises(Exception):
         Vector(Vector([-1, 1]).angle_cos(Vector([1, 2, 3])))
+
+
+def test_cross():
+    assert Vector([0, 0, 1]).cross(Vector([1, 0, 0])) == [0, 1, 0]
+    assert Vector([1, 2, 3]).cross(Vector([4, 5, 6])) == [-3, 6, -3]
+    assert Vector([4, 2, -3]).cross(Vector([-2, -5, 16])) == [17, -58, -16]
+    with pytest.raises(Exception):
+        Vector([0, 1]).cross(Vector([1, 0]))
