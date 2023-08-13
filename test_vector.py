@@ -21,3 +21,11 @@ def test_len():
     assert len(Vector([])) == 0
     assert len(Vector([42])) == 1
     assert len(Vector([42, pi, 1j])) == 3
+
+
+def test_matmul():
+    assert Vector([1, 2, 3]) @ Vector([1, 2, 3]) == 14
+    assert Vector([1j, 2j, 3j]) @ Vector([1j, 2j, 3]) == -5 + 9j
+    assert Vector([1, 0]) @ Vector([0, 1]) == 0
+    with pytest.raises(Exception):
+        Vector([1, 2]) @ Vector([1, 2, 3])

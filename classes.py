@@ -68,6 +68,10 @@ class Vector:
             self.__data[i] *= x
         return self
 
+    def __matmul__(self, other):
+        assert len(self) == len(other)
+        return sum(x * y for x, y in zip(self, other))
+
 
 class Matrix:
     def __init__(self, data):
