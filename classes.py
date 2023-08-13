@@ -83,6 +83,7 @@ class Vector:
         return max(map(abs, self))
 
     def angle_cos(self, other):
+        assert len(self) == len(other)
         sn = self.norm()
         on = other.norm()
         assert sn and on, "can't compute angle with zero vectors"
