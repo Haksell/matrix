@@ -71,7 +71,7 @@ class Vector:
 
     def __matmul__(self, other):
         assert len(self) == len(other)
-        return sum(x * y.conjugate() for x, y in zip(self, other))
+        return sum(x * y.conjugate() for x, y in zip(self, other)).real
 
     def norm_1(self):
         return sum(map(abs, self))
