@@ -75,18 +75,19 @@ class Vector:
         return sum(x * y.conjugate() for x, y in zip(self, other))
 
     def norm_1(self):
-        return sum(abs(x) for x in self)
+        return sum(map(abs, self))
 
     def norm(self):
-        return sqrt(sum(abs(x) ** 2 for x in self))
+        return sqrt(self @ self)
 
     def norm_inf(self):
         return max(map(abs, self))
 
     def angle_cos(self, other):
+        # TODO handle complex vectors
         sn = self.norm()
         on = other.norm()
-        assert sn and on, "Can't compute angle with zero vectors"
+        assert sn and on, "can't compute angle with zero vectors"
         c = (self @ other) / (sn * on)
         return clamp(c, -1, 1)
 

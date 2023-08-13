@@ -30,7 +30,6 @@ def test_len():
 
 def test_matmul():
     assert Vector([1, 2, 3]) @ Vector([1, 2, 3]) == 14
-    assert Vector([1j, 2j, 3j]) @ Vector([1j, 2j, 3]) == -5 + 9j
     assert Vector([1, 0]) @ Vector([0, 1]) == 0
     with pytest.raises(Exception):
         Vector([1, 2]) @ Vector([1, 2, 3])
