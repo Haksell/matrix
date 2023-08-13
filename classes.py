@@ -1,4 +1,5 @@
 # add, iadd, sub, isub, mul, imul, rmul
+from math import sqrt
 import numbers
 
 
@@ -71,6 +72,15 @@ class Vector:
     def __matmul__(self, other):
         assert len(self) == len(other)
         return sum(x * y for x, y in zip(self, other))
+
+    def norm_1(self):
+        return sum(abs(x) for x in self)
+
+    def norm(self):
+        return sqrt(sum(x * x for x in self))
+
+    def norm_inf(self):
+        return max(map(abs, self))
 
 
 class Matrix:
