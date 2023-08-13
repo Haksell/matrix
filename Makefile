@@ -1,3 +1,4 @@
+# TODO fix complex numbers on dot/norm/angle cos
 # TODO add mypy
 # TODO use mypy everywhere instead of asserts
 # TODO add pylint
@@ -8,7 +9,7 @@
 # TODO learn pseudonorms, lorentz transform, split-complex numbers, hyperbolic geometry
 
 test:
-	pytest -ra -vv --cov
+	pytest -ra -v --cov
 
 clean:
 	rm -rf __pycache__ .pytest_cache .coverage

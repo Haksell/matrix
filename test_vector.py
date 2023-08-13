@@ -9,8 +9,7 @@
 from math import pi
 import pytest
 from classes import Vector
-
-is_close = lambda a, b, eps=1e-7: abs(a - b) <= eps
+from utils import is_close
 
 
 def test_init():

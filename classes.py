@@ -1,6 +1,7 @@
 # add, iadd, sub, isub, mul, imul, rmul
 from math import sqrt
-import numbers
+from numbers import Number
+from utils import clamp
 
 
 class Vector:
@@ -17,7 +18,7 @@ class Vector:
         else:
             try:
                 data = list(data)
-                assert all(isinstance(x, numbers.Number) for x in data)
+                assert all(isinstance(x, Number) for x in data)
                 self.__data = data.copy()
             except TypeError:
                 raise TypeError(
@@ -71,26 +72,30 @@ class Vector:
 
     def __matmul__(self, other):
         assert len(self) == len(other)
-        return sum(x * y for x, y in zip(self, other))
+        return sum(x * y.conjugate() for x, y in zip(self, other))
 
     def norm_1(self):
         return sum(abs(x) for x in self)
 
     def norm(self):
-        return sqrt(sum(x * x for x in self))
+        return sqrt(sum(abs(x) ** 2 for x in self))
 
     def norm_inf(self):
         return max(map(abs, self))
 
     def angle_cos(self, other):
-        return (self @ other) / (self.norm() * other.norm())
+        sn = self.norm()
+        on = other.norm()
+        assert sn and on, "Can't compute angle with zero vectors"
+        c = (self @ other) / (sn * on)
+        return clamp(c, -1, 1)
 
 
 class Matrix:
     def __init__(self, data):
         if type(data) == list:
             assert all(type(x) == list or type(x) == Vector for x in data)
-            assert all(isinstance(y, numbers.Number) for x in data for y in x)
+            assert all(isinstance(y, Number) for x in data for y in x)
             assert len(data) == 0 or all(len(x) == len(data[0]) for x in data)
             self.__height = len(data)
             self.__width = len(data[0]) if self.__height else 0
