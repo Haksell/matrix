@@ -82,6 +82,9 @@ class Vector:
     def norm_inf(self):
         return max(map(abs, self))
 
+    def angle_cos(self, other):
+        return (self @ other) / (self.norm() * other.norm())
+
 
 class Matrix:
     def __init__(self, data):

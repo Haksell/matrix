@@ -4,6 +4,8 @@
 # TODO examples with complex numbers
 # TODO learn conjugate transpose, sesquilinear algebra, and Pre-Hilbert space
 # TODO implement conjugate transpose?
+# TODO learn triangle inequality, holder norms, minkowski inequality, frobenius norm
+# TODO learn pseudonorms, lorentz transform, split-complex numbers, hyperbolic geometry
 
 test:
 	pytest -ra -vv --cov
