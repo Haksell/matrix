@@ -1,4 +1,4 @@
-# TODO test repr/str
+# TODO test repr
 # TODO test_init_matrix
 # TODO test mul/rmul
 # TODO test row and column vectors

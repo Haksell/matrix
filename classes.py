@@ -145,7 +145,7 @@ class Matrix:
         return self.__height
 
     def __repr__(self):
-        return f"Matrix({self.__data})"
+        return f"Matrix({list(map(list, self))})"
 
     def __add__(self, other):
         assert self.shape == other.shape
@@ -185,7 +185,7 @@ class Matrix:
         # TODO test complex multiplication
         # https://mathworld.wolfram.com/ComplexMatrix.html
         assert self.width == other.height
-        return Matrix([self.mul_vec(x) for x in other.transpose()])
+        return Matrix([self.mul_vec(x) for x in other.transpose()]).transpose()
 
     def __matmul__(self, other):
         if type(other) == Vector:
