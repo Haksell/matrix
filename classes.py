@@ -1,5 +1,6 @@
 from math import sqrt
 from numbers import Number
+from operator import eq
 from utils import clamp
 
 
@@ -7,7 +8,7 @@ class Vector:
     def __init__(self, data):
         if type(data) == Matrix:
             if data.height == 1:
-                self.__data = data[0].copy()
+                self.__data = list(data[0])
             elif data.width == 1:
                 self.__data = [x[0] for x in data]
             else:
@@ -21,11 +22,11 @@ class Vector:
                 assert all(isinstance(x, Number) for x in self.__data)
             except TypeError:
                 raise TypeError(
-                    f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
+                    f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
                 )
 
     def __eq__(self, other):
-        return len(self) == len(other) and all(x == y for x, y in zip(self, other))
+        return len(self) == len(other) and all(map(eq, self, other))
 
     def __getitem__(self, idx):
         return self.__data[idx]
@@ -69,15 +70,26 @@ class Vector:
             self.__data[i] *= x
         return self
 
-    def __matmul__(self, other):
+    def dot(self, other):
         assert len(self) == len(other)
         return sum(x * y.conjugate() for x, y in zip(self, other)).real
+
+    def __matmul__(self, other):
+        if type(other) == Vector:
+            return self.dot(other)
+        elif type(other) == Matrix:
+            assert len(self) == other.height
+            return Vector([self.dot(x) for x in other.transpose()])
+        else:
+            raise TypeError(
+                f"{self.__class__.__name__} can't be multiplied with type {type(other).__name__}"
+            )
 
     def norm_1(self):
         return sum(map(abs, self))
 
     def norm(self):
-        return sqrt(self @ self)
+        return sqrt(self.dot(self))
 
     def norm_inf(self):
         return max(map(abs, self))
@@ -117,11 +129,11 @@ class Matrix:
             self.__data = [Vector([x]) for x in data]
         else:
             raise TypeError(
-                f"{self.__class__.__name__} can't be constructed from a {type(data).__name__}"
+                f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
             )
 
     def __eq__(self, other):
-        return self.shape == other.shape and all(x == y for x, y in zip(self, other))
+        return self.shape == other.shape and all(map(Vector.__eq__, self, other))
 
     def __getitem__(self, idx):
         return self.__data[idx]
@@ -164,6 +176,26 @@ class Matrix:
         for i in range(len(self)):
             self.__data[i] *= x
         return self
+
+    def mul_vec(self, other):
+        assert self.width == len(other)
+        return Vector([x.dot(other) for x in self])
+
+    def mul_mat(self, other):
+        # TODO test complex multiplication
+        # https://mathworld.wolfram.com/ComplexMatrix.html
+        assert self.width == other.height
+        return Matrix([self.mul_vec(x) for x in other.transpose()])
+
+    def __matmul__(self, other):
+        if type(other) == Vector:
+            return self.mul_vec(other)
+        elif type(other) == Matrix:
+            return self.mul_mat(other)
+        else:
+            raise TypeError(
+                f"{self.__class__.__name__} can't be multiplied with type {type(other).__name__}"
+            )
 
     @property
     def height(self):

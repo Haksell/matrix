@@ -8,13 +8,15 @@
 
 from math import pi
 import pytest
-from classes import Vector
+from classes import Matrix, Vector
 from utils import is_close
 
 
 def test_init():
     Vector([42])
     assert Vector([42, pi, 1j]) == Vector((42, pi, 1j))
+    assert Vector(Matrix([[42, pi, 1j]])) == Vector((42, pi, 1j))
+    assert Vector(Matrix([[42], [pi], [1j]])) == Vector((42, pi, 1j))
     with pytest.raises(Exception):
         Vector([])
     with pytest.raises(Exception):
@@ -31,6 +33,8 @@ def test_len():
 def test_matmul():
     assert Vector([1, 2, 3]) @ Vector([1, 2, 3]) == 14
     assert Vector([1, 0]) @ Vector([0, 1]) == 0
+    print(Vector([1, 2]) @ Matrix([[1, 2, 3], [4, 5, 6]]))
+    assert Vector([1, 2]) @ Matrix([[1, 2, 3], [4, 5, 6]]) == Vector([9, 12, 15])
     with pytest.raises(Exception):
         Vector([1, 2]) @ Vector([1, 2, 3])
 
