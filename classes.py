@@ -212,6 +212,10 @@ class Matrix:
     def is_square(self):
         return self.__width == self.__height
 
+    def trace(self):
+        assert self.is_square()
+        return sum(self[i][i] for i in range(self.__height))
+
     def transpose(self):
         return Matrix(
             [
