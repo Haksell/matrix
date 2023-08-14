@@ -112,6 +112,9 @@ class Vector:
             ]
         )
 
+    def conjugate(self):
+        return Vector([x.conjugate() for x in self])
+
 
 class Matrix:
     def __init__(self, data):
@@ -216,6 +219,9 @@ class Matrix:
         assert self.is_square()
         return sum(self[i][i] for i in range(self.__height))
 
+    def conjugate(self):
+        return Matrix([x.conjugate() for x in self])
+
     def transpose(self):
         return Matrix(
             [
@@ -223,3 +229,6 @@ class Matrix:
                 for x in range(self.__width)
             ]
         )
+
+    def conjugate_transpose(self):
+        return self.transpose().conjugate()

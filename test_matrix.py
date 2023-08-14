@@ -30,3 +30,29 @@ def test_trace():
     assert Matrix([[2, -5, 0], [4, 3, 7], [-2, 3, 4]]).trace() == 9
     assert Matrix([[-2, -8, 4], [1, -23, 4], [0, 6, 4]]).trace() == -21
     assert Matrix([[-2, -8, 4], [1, -23, 4], [0, 6, 4j]]).trace() == -25 + 4j
+
+
+def test_conjugate():
+    assert Matrix([[1, 0], [0, 1]]).conjugate() == Matrix([[1, 0], [0, 1]])
+    assert Matrix([[1j, 0], [0, 1j]]).conjugate() == Matrix([[-1j, 0], [0, -1j]])
+    assert Matrix([[1j, 2], [3, 4j], [5j, 6 + 7j]]).conjugate() == Matrix(
+        [[-1j, 2], [3, -4j], [-5j, 6 - 7j]]
+    )
+
+
+def test_transpose():
+    assert Matrix([[1, 0], [0, 1]]).transpose() == Matrix([[1, 0], [0, 1]])
+    assert Matrix([[1, 2], [3, 4]]).transpose() == Matrix([[1, 3], [2, 4]])
+    assert Matrix([[1j, 2j, 3j]]).transpose() == Matrix([[1j], [2j], [3j]])
+
+
+def test_conjugate():
+    assert Matrix([[1, 0], [0, 1]]).conjugate_transpose() == Matrix([[1, 0], [0, 1]])
+    assert Matrix([[1, 2], [3, 4]]).conjugate_transpose() == Matrix([[1, 3], [2, 4]])
+    assert Matrix([[1j, 2j, 3j]]).conjugate_transpose() == Matrix([[-1j], [-2j], [-3j]])
+    assert Matrix([[1j, 0], [0, 1j]]).conjugate_transpose() == Matrix(
+        [[-1j, 0], [0, -1j]]
+    )
+    assert Matrix([[1j, 2], [3, 4j], [5j, 6 + 7j]]).conjugate_transpose() == Matrix(
+        [[-1j, 3, -5j], [2, -4j, 6 - 7j]]
+    )
