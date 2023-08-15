@@ -77,3 +77,13 @@ def test_row_echelon():
             )
         )
     )
+
+
+def test_determinant():
+    assert Matrix([[1, -1], [-1, 1]]).determinant() == 0
+    assert Matrix([[2, 0, 0], [0, 2, 0], [0, 0, 2]]).determinant() == 8
+    assert Matrix([[2, 0, 0], [0, 0, 2], [0, 2, 0]]).determinant() == -8
+    assert Matrix([[0, 2, 0], [2, 0, 0], [0, 0, 2]]).determinant() == -8
+    assert Matrix([[0, 2, 0], [0, 0, 2], [2, 0, 0]]).determinant() == 8
+    assert Matrix([[0, 0, 2], [2, 0, 0], [0, 2, 0]]).determinant() == 8
+    assert Matrix([[0, 0, 2], [0, 2, 0], [2, 0, 0]]).determinant() == -8

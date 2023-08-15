@@ -1,5 +1,5 @@
 from copy import deepcopy
-from math import sqrt
+from math import prod, sqrt
 from numbers import Number
 from operator import eq
 from utils import clamp, is_close
@@ -27,7 +27,14 @@ class Vector:
                 )
 
     def __eq__(self, other):
-        return len(self) == len(other) and all(map(eq, self, other))
+        return (
+            type(self) == type(other)
+            and len(self) == len(other)
+            and all(map(eq, self, other))
+        )
+
+    def is_close(self, other):
+        return len(self) == len(other) and all(map(is_close, self, other))
 
     def __getitem__(self, idx):
         return self.__data[idx]
@@ -121,9 +128,6 @@ class Vector:
     def conjugate(self):
         return Vector([x.conjugate() for x in self])
 
-    def is_close(self, other):
-        return len(self) == len(other) and all(map(is_close, self, other))
-
 
 class Matrix:
     def __init__(self, data):
@@ -145,7 +149,14 @@ class Matrix:
             )
 
     def __eq__(self, other):
-        return self.shape == other.shape and all(map(Vector.__eq__, self, other))
+        return (
+            type(self) == type(other)
+            and self.shape == other.shape
+            and all(map(Vector.__eq__, self, other))
+        )
+
+    def is_close(self, other):
+        return self.shape == other.shape and all(map(Vector.is_close, self, other))
 
     def __getitem__(self, idx):
         return self.__data[idx]
@@ -248,8 +259,9 @@ class Matrix:
     def conjugate_transpose(self):
         return self.conjugate().transpose()
 
-    def row_echelon(self):
+    def rref_det(self):
         res = deepcopy(self.__data)
+        determinant = 1
         y = 0
         for x in range(self.__width):
             y_swap = next(
@@ -257,9 +269,12 @@ class Matrix:
                 None,
             )
             if y_swap is None:
+                determinant = 0
                 continue
             elif y_swap != y:
+                determinant = -determinant
                 res[y], res[y_swap] = res[y_swap], res[y]
+            determinant *= res[y][x]
             res[y] *= 1 / res[y][x]
             for y2 in range(self.__height):
                 if y != y2 and res[y2][x] != 0:
@@ -267,7 +282,12 @@ class Matrix:
             y += 1
             if y == self.__height:
                 break
-        return Matrix(res)
+        res = Matrix(res)
+        return (res, determinant)
 
-    def is_close(self, other):
-        return self.shape == other.shape and all(map(Vector.is_close, self, other))
+    def row_echelon(self):
+        return self.rref_det()[0]
+
+    def determinant(self):
+        assert self.is_square()
+        return self.rref_det()[1]
