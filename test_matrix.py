@@ -2,6 +2,7 @@
 # TODO test_init_vector
 # TODO test complex multiplication
 
+from fractions import Fraction
 import pytest
 from classes import Matrix, Vector
 from utils import is_close
@@ -72,8 +73,8 @@ def test_row_echelon():
         .is_close(
             Matrix(
                 [
-                    [1, 0.625, 0, 0, -12.1666667],
-                    [0, 0, 1, 0, -3.6666667],
+                    [1, 0.625, 0, 0, Fraction(-73, 6)],
+                    [0, 0, 1, 0, Fraction(-11, 3)],
                     [0, 0, 0, 1, 29.5],
                 ]
             )
