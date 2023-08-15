@@ -6,6 +6,8 @@
 # TODO examples with complex numbers
 # TODO fix complex numbers on dot/norm/angle cos
 
+# TODO test individually each function/method even if coverage 100%
+
 test:
 	pytest -ra -vv --cov
 

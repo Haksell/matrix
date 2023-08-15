@@ -161,6 +161,22 @@ class Matrix:
         assert n >= 1
         return Matrix([[1 if x == y else 0 for x in range(n)] for y in range(n)])
 
+    @staticmethod
+    def zero(h, w=None):
+        if w is None:
+            w = h
+        assert type(h) == int
+        assert h >= 1
+        return Matrix([[0] * w for y in range(h)])
+
+    @staticmethod
+    def one(h, w=None):
+        if w is None:
+            w = h
+        assert type(h) == int
+        assert h >= 1
+        return Matrix([[1] * w for y in range(h)])
+
     def __eq__(self, other):
         return (
             type(self) == type(other)
@@ -333,3 +349,6 @@ class Matrix:
                 if y != y2 and augmented[y2][y] != 0:
                     augmented[y2] -= augmented[y2][y] * augmented[y]
         return Matrix([list(v)[self.__width :] for v in augmented])
+
+    def rank(self):
+        return sum(any(x != 0 for x in row) for row in self.row_echelon())

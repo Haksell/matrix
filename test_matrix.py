@@ -121,6 +121,40 @@ def test_identity():
         Matrix.identity(3.14)
 
 
+def test_zero():
+    assert Matrix.zero(1) == Matrix([[0]])
+    assert Matrix.zero(2) == Matrix([[0, 0], [0, 0]])
+    assert Matrix.zero(3) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    assert Matrix.zero(4) == Matrix(
+        [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+    )
+    assert Matrix.zero(2, 3) == Matrix([[0, 0, 0], [0, 0, 0]])
+    assert Matrix.zero(3, 2) == Matrix([[0, 0], [0, 0], [0, 0]])
+    with pytest.raises(Exception):
+        Matrix.zero(-1)
+    with pytest.raises(Exception):
+        Matrix.zero(0)
+    with pytest.raises(Exception):
+        Matrix.zero(3.14)
+
+
+def test_one():
+    assert Matrix.one(1) == Matrix([[1]])
+    assert Matrix.one(2) == Matrix([[1, 1], [1, 1]])
+    assert Matrix.one(3) == Matrix([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+    assert Matrix.one(4) == Matrix(
+        [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]]
+    )
+    assert Matrix.one(2, 3) == Matrix([[1, 1, 1], [1, 1, 1]])
+    assert Matrix.one(3, 2) == Matrix([[1, 1], [1, 1], [1, 1]])
+    with pytest.raises(Exception):
+        Matrix.one(-1)
+    with pytest.raises(Exception):
+        Matrix.one(0)
+    with pytest.raises(Exception):
+        Matrix.one(3.14)
+
+
 def test_augment():
     with pytest.raises(Exception):
         Matrix([[1, 2], [3, 4], [5, 6]]).augment()
@@ -159,3 +193,11 @@ def test_inverse():
             )
         )
     )
+
+
+def test_rank():
+    assert Matrix.identity(5).rank() == 5
+    assert Matrix.zero(5).rank() == 0
+    assert Matrix.one(5).rank() == 1
+    assert Matrix([[1, 2, 0, 0], [2, 4, 0, 0], [-1, 2, 1, 1]]).rank() == 2
+    assert Matrix([[8, 5, -2], [4, 7, 20], [7, 6, 1], [21, 18, 7]]).rank() == 3
