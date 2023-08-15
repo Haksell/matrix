@@ -46,7 +46,7 @@ def test_transpose():
     assert Matrix([[1j, 2j, 3j]]).transpose() == Matrix([[1j], [2j], [3j]])
 
 
-def test_conjugate():
+def test_conjugate_transpose():
     assert Matrix([[1, 0], [0, 1]]).conjugate_transpose() == Matrix([[1, 0], [0, 1]])
     assert Matrix([[1, 2], [3, 4]]).conjugate_transpose() == Matrix([[1, 3], [2, 4]])
     assert Matrix([[1j, 2j, 3j]]).conjugate_transpose() == Matrix([[-1j], [-2j], [-3j]])
@@ -55,4 +55,25 @@ def test_conjugate():
     )
     assert Matrix([[1j, 2], [3, 4j], [5j, 6 + 7j]]).conjugate_transpose() == Matrix(
         [[-1j, 3, -5j], [2, -4j, 6 - 7j]]
+    )
+
+
+def test_row_echelon():
+    assert Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]).row_echelon() == Matrix(
+        [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    )
+    assert Matrix([[1, 2], [3, 4]]).row_echelon() == Matrix([[1, 0], [0, 1]])
+    assert Matrix([[1, 2], [2, 4]]).row_echelon() == Matrix([[1, 2], [0, 0]])
+    assert (
+        Matrix([[8, 5, -2, 4, 28], [4, 2.5, 20, 4, -4], [8, 5, 1, 4, 17]])
+        .row_echelon()
+        .is_close(
+            Matrix(
+                [
+                    [1, 0.625, 0, 0, -12.1666667],
+                    [0, 0, 1, 0, -3.6666667],
+                    [0, 0, 0, 1, 29.5],
+                ]
+            )
+        )
     )

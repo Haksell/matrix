@@ -7,7 +7,7 @@
 # TODO fix complex numbers on dot/norm/angle cos
 
 test:
-	pytest -rA -v --cov
+	pytest -ra -v --cov
 
 clean:
 	rm -rf __pycache__ .pytest_cache .coverage

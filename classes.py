@@ -1,7 +1,8 @@
+from copy import deepcopy
 from math import sqrt
 from numbers import Number
 from operator import eq
-from utils import clamp
+from utils import clamp, is_close
 
 
 class Vector:
@@ -30,6 +31,11 @@ class Vector:
 
     def __getitem__(self, idx):
         return self.__data[idx]
+
+    def __setitem__(self, idx, item):
+        assert 0 <= idx < len(self)
+        assert isinstance(item, Number)
+        self[idx] = item
 
     def __iter__(self):
         yield from self.__data
@@ -115,6 +121,9 @@ class Vector:
     def conjugate(self):
         return Vector([x.conjugate() for x in self])
 
+    def is_close(self, other):
+        return len(self) == len(other) and all(map(is_close, self, other))
+
 
 class Matrix:
     def __init__(self, data):
@@ -139,6 +148,12 @@ class Matrix:
         return self.shape == other.shape and all(map(Vector.__eq__, self, other))
 
     def __getitem__(self, idx):
+        return self.__data[idx]
+
+    def __setitem__(self, idx, item):
+        assert 0 <= idx < len(self)
+        assert isinstance(item, Vector)
+        assert len(item) == self.__width
         return self.__data[idx]
 
     def __iter__(self):
@@ -231,4 +246,28 @@ class Matrix:
         )
 
     def conjugate_transpose(self):
-        return self.transpose().conjugate()
+        return self.conjugate().transpose()
+
+    def row_echelon(self):
+        res = deepcopy(self)
+        y = 0
+        for x in range(self.__width):
+            if res[y][x] == 0:
+                y_swap = next(
+                    (y2 for y2 in range(y + 1, self.__height) if res[y2][x] != 0),
+                    None,
+                )
+                if y_swap is None:
+                    continue
+                res.__data[y], res.__data[y_swap] = res.__data[y_swap], res.__data[y]
+            res[y] *= 1 / res[y][x]
+            for y2 in range(self.__height):
+                if y != y2 and res[y2][x] != 0:
+                    res[y2] -= res[y2][x] * res[y]
+            y += 1
+            if y == self.__height:
+                break
+        return res
+
+    def is_close(self, other):
+        return self.shape == other.shape and all(map(Vector.is_close, self, other))
