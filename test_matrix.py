@@ -2,7 +2,9 @@
 # TODO test_init_vector
 # TODO test complex multiplication
 
+import pytest
 from classes import Matrix, Vector
+from utils import is_close
 
 
 def test_mat_vec():
@@ -87,3 +89,17 @@ def test_determinant():
     assert Matrix([[0, 2, 0], [0, 0, 2], [2, 0, 0]]).determinant() == 8
     assert Matrix([[0, 0, 2], [2, 0, 0], [0, 2, 0]]).determinant() == 8
     assert Matrix([[0, 0, 2], [0, 2, 0], [2, 0, 0]]).determinant() == -8
+    assert is_close(Matrix([[8, 5, -2], [4, 7, 20], [7, 6, 1]]).determinant(), -174)
+    assert is_close(
+        Matrix(
+            [
+                [8, 5, -2, 4],
+                [4, 2.5, 20, 4],
+                [8, 5, 1, 4],
+                [28, -4, 17, 1],
+            ]
+        ).determinant(),
+        1032,
+    )
+    with pytest.raises(Exception):
+        Matrix([[0, 0, 2], [0, 2, 0]]).determinant()
