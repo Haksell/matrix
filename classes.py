@@ -249,17 +249,17 @@ class Matrix:
         return self.conjugate().transpose()
 
     def row_echelon(self):
-        res = deepcopy(self)
+        res = deepcopy(self.__data)
         y = 0
         for x in range(self.__width):
-            if res[y][x] == 0:
-                y_swap = next(
-                    (y2 for y2 in range(y + 1, self.__height) if res[y2][x] != 0),
-                    None,
-                )
-                if y_swap is None:
-                    continue
-                res.__data[y], res.__data[y_swap] = res.__data[y_swap], res.__data[y]
+            y_swap = next(
+                (y2 for y2 in range(y, self.__height) if res[y2][x] != 0),
+                None,
+            )
+            if y_swap is None:
+                continue
+            elif y_swap != y:
+                res[y], res[y_swap] = res[y_swap], res[y]
             res[y] *= 1 / res[y][x]
             for y2 in range(self.__height):
                 if y != y2 and res[y2][x] != 0:
@@ -267,7 +267,7 @@ class Matrix:
             y += 1
             if y == self.__height:
                 break
-        return res
+        return Matrix(res)
 
     def is_close(self, other):
         return self.shape == other.shape and all(map(Vector.is_close, self, other))
