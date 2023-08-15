@@ -82,6 +82,7 @@ def test_row_echelon():
 
 
 def test_determinant():
+    # TODO test complex
     assert Matrix([[1, -1], [-1, 1]]).determinant() == 0
     assert Matrix([[2, 0, 0], [0, 2, 0], [0, 0, 2]]).determinant() == 8
     assert Matrix([[2, 0, 0], [0, 0, 2], [0, 2, 0]]).determinant() == -8
@@ -131,6 +132,7 @@ def test_augment():
 
 
 def test_inverse():
+    # TODO test complex
     with pytest.raises(Exception):
         Matrix([[1, 2], [3, 4], [5, 6]]).inverse()
     with pytest.raises(Exception):
