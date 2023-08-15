@@ -1,5 +1,5 @@
 from copy import deepcopy
-from math import prod, sqrt
+from math import sqrt
 from numbers import Number
 from operator import eq
 from utils import clamp, is_close
@@ -42,7 +42,7 @@ class Vector:
     def __setitem__(self, idx, item):
         assert 0 <= idx < len(self)
         assert isinstance(item, Number)
-        self[idx] = item
+        self.__data[idx] = item
 
     def __iter__(self):
         yield from self.__data
@@ -130,6 +130,10 @@ class Vector:
 
 
 class Matrix:
+    class SingularException(Exception):
+        def __init__(self, matrix):
+            super().__init__(f"{matrix} is singular")
+
     def __init__(self, data):
         if type(data) == list:
             assert all(type(x) == list or type(x) == Vector for x in data)
@@ -148,6 +152,12 @@ class Matrix:
                 f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
             )
 
+    @staticmethod
+    def identity(n):
+        assert type(n) == int
+        assert n >= 1
+        return Matrix([[1 if x == y else 0 for x in range(n)] for y in range(n)])
+
     def __eq__(self, other):
         return (
             type(self) == type(other)
@@ -165,7 +175,7 @@ class Matrix:
         assert 0 <= idx < len(self)
         assert isinstance(item, Vector)
         assert len(item) == self.__width
-        return self.__data[idx]
+        self.__data[idx] = item
 
     def __iter__(self):
         yield from self.__data
@@ -291,3 +301,32 @@ class Matrix:
     def determinant(self):
         assert self.is_square()
         return self.rref_det()[1]
+
+    def augment(self):
+        assert self.is_square()
+        return Matrix(
+            [
+                list(v1) + list(v2)
+                for v1, v2 in zip(self, Matrix.identity(self.__height))
+            ]
+        )
+
+    def inverse(self):
+        assert self.is_square()
+        augmented = self.augment()
+        for y in range(self.__height):
+            y_swap = next(
+                (y2 for y2 in range(y, self.__height) if augmented[y2][y] != 0),
+                None,
+            )
+            if y_swap is None:
+                raise Matrix.SingularException(self)
+            elif y_swap != y:
+                tmp = augmented[y]
+                augmented[y] = augmented[y_swap]
+                augmented[y_swap] = tmp
+            augmented[y] *= 1 / augmented[y][y]
+            for y2 in range(self.__height):
+                if y != y2 and augmented[y2][y] != 0:
+                    augmented[y2] -= augmented[y2][y] * augmented[y]
+        return Matrix([list(v)[self.__width :] for v in augmented])

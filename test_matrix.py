@@ -103,3 +103,57 @@ def test_determinant():
     )
     with pytest.raises(Exception):
         Matrix([[0, 0, 2], [0, 2, 0]]).determinant()
+
+
+def test_identity():
+    assert Matrix.identity(1) == Matrix([[1]])
+    assert Matrix.identity(2) == Matrix([[1, 0], [0, 1]])
+    assert Matrix.identity(3) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    assert Matrix.identity(4) == Matrix(
+        [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+    )
+    with pytest.raises(Exception):
+        Matrix.identity(-1)
+    with pytest.raises(Exception):
+        Matrix.identity(0)
+    with pytest.raises(Exception):
+        Matrix.identity(3.14)
+
+
+def test_augment():
+    with pytest.raises(Exception):
+        Matrix([[1, 2], [3, 4], [5, 6]]).augment()
+    assert Matrix([[1, 0], [0, 1]]).augment() == Matrix([[1, 0, 1, 0], [0, 1, 0, 1]])
+    assert Matrix([[7, 7], [7, 7]]).augment() == Matrix([[7, 7, 1, 0], [7, 7, 0, 1]])
+    assert Matrix([[7, 7, 7], [7, 7, 7], [7, 7, 7]]).augment() == Matrix(
+        [[7, 7, 7, 1, 0, 0], [7, 7, 7, 0, 1, 0], [7, 7, 7, 0, 0, 1]]
+    )
+
+
+def test_inverse():
+    with pytest.raises(Exception):
+        Matrix([[1, 2], [3, 4], [5, 6]]).inverse()
+    with pytest.raises(Exception):
+        Matrix([[1, 2, 3], [4, 5, 6], [5, 7, 9]]).inverse()
+    assert Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]).inverse() == Matrix(
+        [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    )
+    assert Matrix([[2, 0, 0], [0, 2, 0], [0, 0, 2]]).inverse() == Matrix(
+        [[0.5, 0, 0], [0, 0.5, 0], [0, 0, 0.5]]
+    )
+    assert Matrix([[0, 1, 0], [0, 0, 1], [1, 0, 0]]).inverse() == Matrix(
+        [[0, 0, 1], [1, 0, 0], [0, 1, 0]]
+    )
+    assert (
+        Matrix([[8, 5, -2], [4, 7, 20], [7, 6, 1]])
+        .inverse()
+        .is_close(
+            Matrix(
+                [
+                    [0.649425287, 0.097701149, -0.655172414],
+                    [-0.781609195, -0.126436782, 0.965517241],
+                    [0.143678161, 0.074712644, -0.206896552],
+                ]
+            )
+        )
+    )

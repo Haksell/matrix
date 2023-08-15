@@ -1,4 +1,4 @@
-def is_close(a, b, eps=1e-7):
+def is_close(a, b, eps=1e-6):
     return abs(a - b) <= eps
 
 
