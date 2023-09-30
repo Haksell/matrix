@@ -9,8 +9,14 @@
 # TODO bonus
 # TODO test individually each function/method even if coverage 100%
 
+END := \033[0m
+GREEN := \033[1m\033[32m
+
 test:
-	pytest -ra -vv --cov
+	@flake8 --exclude=test_*.py
+	@echo "$(GREEN)✓ flake8$(END)"
+	@pytest
+	@echo "$(GREEN)✓ pytest$(END)"
 
 clean:
 	rm -rf __pycache__ .pytest_cache .coverage

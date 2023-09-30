@@ -14,7 +14,8 @@ class Vector:
                 self.__data = [x[0] for x in data]
             else:
                 raise ValueError(
-                    f"Matrix must be a row or column vector, not {data.height}x{data.width}"
+                    "Matrix must be a row or column vector, not "
+                    f"{data.height}x{data.width}"
                 )
         else:
             try:
@@ -23,7 +24,8 @@ class Vector:
                 assert all(isinstance(x, Number) for x in self.__data)
             except TypeError:
                 raise TypeError(
-                    f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
+                    f"{self.__class__.__name__} can't be constructed from type "
+                    f"{type(data).__name__}"
                 )
 
     def __eq__(self, other):
