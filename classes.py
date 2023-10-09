@@ -7,7 +7,7 @@ from utils import clamp, is_close
 
 class Vector:
     def __init__(self, data):
-        if type(data) == Matrix:
+        if type(data) is Matrix:
             if data.height == 1:
                 self.__data = list(data[0])
             elif data.width == 1:
@@ -30,7 +30,7 @@ class Vector:
 
     def __eq__(self, other):
         return (
-            type(self) == type(other)
+            type(self) is type(other)
             and len(self) == len(other)
             and all(map(eq, self, other))
         )
@@ -90,14 +90,16 @@ class Vector:
         return sum(x * y.conjugate() for x, y in zip(self, other)).real
 
     def __matmul__(self, other):
-        if type(other) == Vector:
+        if type(other) is Vector:
             return self.dot(other)
-        elif type(other) == Matrix:
+        elif type(other) is Matrix:
             assert len(self) == other.height
             return Vector([self.dot(x) for x in other.transpose()])
         else:
             raise TypeError(
-                f"{self.__class__.__name__} can't be multiplied with type {type(other).__name__}"
+                self.__class__.__name__
+                + " can't be multiplied with type "
+                + type(other).__name__
             )
 
     def norm_1(self):
@@ -140,26 +142,28 @@ class Matrix:
             super().__init__(f"{matrix} is singular")
 
     def __init__(self, data):
-        if type(data) == list:
-            assert all(type(x) == list or type(x) == Vector for x in data)
+        if type(data) is list:
+            assert all(type(x) is list or type(x) is Vector for x in data)
             assert all(isinstance(y, Number) for x in data for y in x)
             assert len(data) != 0 and len(data[0]) != 0
             assert all(len(x) == len(data[0]) for x in data)
             self.__height = len(data)
             self.__width = len(data[0])
             self.__data = [Vector(x) for x in data]
-        elif type(data) == Vector:
+        elif type(data) is Vector:
             self.__height = len(data)
             self.__width = 1
             self.__data = [Vector([x]) for x in data]
         else:
             raise TypeError(
-                f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
+                self.__class__.__name__
+                + " can't be constructed from type "
+                + type(data).__name__
             )
 
     @staticmethod
     def identity(n):
-        assert type(n) == int
+        assert type(n) is int
         assert n >= 1
         return Matrix([[1 if x == y else 0 for x in range(n)] for y in range(n)])
 
@@ -167,7 +171,7 @@ class Matrix:
     def zero(h, w=None):
         if w is None:
             w = h
-        assert type(h) == int
+        assert type(h) is int
         assert h >= 1
         return Matrix([[0] * w for y in range(h)])
 
@@ -175,13 +179,13 @@ class Matrix:
     def one(h, w=None):
         if w is None:
             w = h
-        assert type(h) == int
+        assert type(h) is int
         assert h >= 1
         return Matrix([[1] * w for y in range(h)])
 
     def __eq__(self, other):
         return (
-            type(self) == type(other)
+            type(self) is type(other)
             and self.shape == other.shape
             and all(map(Vector.__eq__, self, other))
         )
@@ -248,13 +252,15 @@ class Matrix:
         return Matrix([self.mul_vec(x) for x in other.transpose()]).transpose()
 
     def __matmul__(self, other):
-        if type(other) == Vector:
+        if type(other) is Vector:
             return self.mul_vec(other)
-        elif type(other) == Matrix:
+        elif type(other) is Matrix:
             return self.mul_mat(other)
         else:
             raise TypeError(
-                f"{self.__class__.__name__} can't be multiplied with type {type(other).__name__}"
+                self.__class__.__name__
+                + " can't be multiplied with type "
+                + type(other).__name__
             )
 
     @property
