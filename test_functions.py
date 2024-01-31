@@ -69,16 +69,42 @@ def test_lerp_invalid():
 
 
 def test_projection_matrix():
-    expected = Matrix(
-        [
-            [0.56250000, 0.00000000, 0.00000000, 0.00000000],
-            [0.00000000, 1.00000000, 0.00000000, 0.00000000],
-            [0.00000000, 0.00000000, -1.00200200, -1.00000000],
-            [0.00000000, 0.00000000, -0.20020020, 0.00000000],
-        ]
+    def check_same_matrices(expected, result):
+        assert expected.shape == result.shape
+        assert all(
+            is_close(expected[y][x], result[y][x]) for y in range(4) for x in range(4)
+        )
+
+    check_same_matrices(
+        projection_matrix(math.radians(90), 16 / 9, 0.1, 100),
+        Matrix(
+            [
+                [0.56250000, 0.00000000, 0.00000000, 0.00000000],
+                [0.00000000, 1.00000000, 0.00000000, 0.00000000],
+                [0.00000000, 0.00000000, -1.00200200, -1.00000000],
+                [0.00000000, 0.00000000, -0.20020020, 0.00000000],
+            ]
+        ),
     )
-    result = projection_matrix(math.radians(90), 16 / 9, 0.1, 100)
-    assert expected.shape == result.shape
-    assert all(
-        is_close(expected[y][x], result[y][x]) for y in range(4) for x in range(4)
+    check_same_matrices(
+        projection_matrix(math.radians(80), 1, 0.1, 100),
+        Matrix(
+            [
+                [1.19175359, 0.00000000, 0.00000000, 0.00000000],
+                [0.00000000, 1.19175359, 0.00000000, 0.00000000],
+                [0.00000000, 0.00000000, -1.00200200, -1.00000000],
+                [0.00000000, 0.00000000, -0.20020020, 0.00000000],
+            ]
+        ),
+    )
+    check_same_matrices(
+        projection_matrix(math.radians(80), 1, 0.1, 7),
+        Matrix(
+            [
+                [1.19175359, 0.00000000, 0.00000000, 0.00000000],
+                [0.00000000, 1.19175359, 0.00000000, 0.00000000],
+                [0.00000000, 0.00000000, -1.02898551, -1.00000000],
+                [0.00000000, 0.00000000, -0.20289855, 0.00000000],
+            ]
+        ),
     )
