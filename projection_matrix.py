@@ -13,7 +13,7 @@ def projection_matrix(fov, ratio, near, far):
             [scale / ratio, 0, 0, 0],
             [0, scale, 0, 0],
             [0, 0, (far + near) * nf, -1],
-            [0, 0, 2 * far * near * nf, 0],
+            [0, 0, far * near * nf, 0],
         ]
     )
 
