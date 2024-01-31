@@ -6,7 +6,7 @@ def projection_matrix(fov, ratio, near, far):
     assert 0 < fov < math.pi
     assert ratio > 0
     assert 0 < near < far
-    scale = 1 / math.tan(fov / 2)
+    scale = 1 / math.tan(fov * 0.5)
     nf = 1 / (near - far)
     return Matrix(
         [
