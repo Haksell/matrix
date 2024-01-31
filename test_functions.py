@@ -1,6 +1,9 @@
+import math
 import pytest
 from classes import Matrix, Vector
 from functions import lerp, linear_combination
+from projection_matrix import projection_matrix
+from utils import is_close
 
 
 def test_linear_combination_valid():
@@ -63,3 +66,19 @@ def test_lerp_invalid():
         lerp(0, 1, 1.5)
     with pytest.raises(Exception):
         lerp(Vector([1]), Matrix([[1]]), 0.5)
+
+
+def test_projection_matrix():
+    expected = Matrix(
+        [
+            [0.56250000, 0.00000000, 0.00000000, 0.00000000],
+            [0.00000000, 1.00000000, 0.00000000, 0.00000000],
+            [0.00000000, 0.00000000, -1.00200200, -1.00000000],
+            [0.00000000, 0.00000000, -0.20020020, 0.00000000],
+        ]
+    )
+    result = projection_matrix(math.radians(90), 16 / 9, 0.1, 100)
+    assert expected.shape == result.shape
+    assert all(
+        is_close(expected[y][x], result[y][x]) for y in range(4) for x in range(4)
+    )
