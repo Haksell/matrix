@@ -142,8 +142,8 @@ class Matrix:
             super().__init__(f"{matrix} is singular")
 
     def __init__(self, data):
-        if type(data) is list:
-            assert all(type(x) is list or type(x) is Vector for x in data)
+        if isinstance(data, list):
+            assert all(isinstance(x, list) or type(x) is Vector for x in data)
             assert all(isinstance(y, Number) for x in data for y in x)
             assert len(data) != 0 and len(data[0]) != 0
             assert all(len(x) == len(data[0]) for x in data)
@@ -163,7 +163,7 @@ class Matrix:
 
     @staticmethod
     def identity(n):
-        assert type(n) is int
+        assert isinstance(n, int)
         assert n >= 1
         return Matrix([[1 if x == y else 0 for x in range(n)] for y in range(n)])
 
@@ -171,7 +171,7 @@ class Matrix:
     def zero(h, w=None):
         if w is None:
             w = h
-        assert type(h) is int
+        assert isinstance(h, int)
         assert h >= 1
         return Matrix([[0] * w for y in range(h)])
 
@@ -179,7 +179,7 @@ class Matrix:
     def one(h, w=None):
         if w is None:
             w = h
-        assert type(h) is int
+        assert isinstance(h, int)
         assert h >= 1
         return Matrix([[1] * w for y in range(h)])
 
