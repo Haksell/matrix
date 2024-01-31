@@ -14,8 +14,7 @@ class Vector:
                 self.__data = [x[0] for x in data]
             else:
                 raise ValueError(
-                    "Matrix must be a row or column vector, not "
-                    f"{data.height}x{data.width}"
+                    "Matrix must be a row or column vector, not {data.height}x{data.width}"
                 )
         else:
             try:
@@ -24,8 +23,7 @@ class Vector:
                 assert all(isinstance(x, Number) for x in self.__data)
             except TypeError:
                 raise TypeError(
-                    f"{self.__class__.__name__} can't be constructed from type "
-                    f"{type(data).__name__}"
+                    f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
                 )
 
     def __eq__(self, other):
@@ -97,9 +95,7 @@ class Vector:
             return Vector([self.dot(x) for x in other.transpose()])
         else:
             raise TypeError(
-                self.__class__.__name__
-                + " can't be multiplied with type "
-                + type(other).__name__
+                f"{self.__class__.__name__} can't be multiplied with type {type(other).__name__}"
             )
 
     def norm_1(self):
@@ -156,9 +152,7 @@ class Matrix:
             self.__data = [Vector([x]) for x in data]
         else:
             raise TypeError(
-                self.__class__.__name__
-                + " can't be constructed from type "
-                + type(data).__name__
+                f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
             )
 
     @staticmethod
@@ -258,9 +252,7 @@ class Matrix:
             return self.mul_mat(other)
         else:
             raise TypeError(
-                self.__class__.__name__
-                + " can't be multiplied with type "
-                + type(other).__name__
+                f"{self.__class__.__name__} can't be multiplied with type {type(other).__name__}"
             )
 
     @property
