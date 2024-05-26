@@ -65,3 +65,7 @@ def test_sub():
     pf = PrimeField(2, 7)
     pf -= PrimeField(3, 7)
     assert pf == PrimeField(6, 7)
+
+
+def test_pow():
+    pass
