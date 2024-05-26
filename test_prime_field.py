@@ -67,5 +67,69 @@ def test_sub():
     assert pf == PrimeField(6, 7)
 
 
-def test_pow():
-    pass
+def test_mul():
+    assert PrimeField(0, 5) * PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) * PrimeField(1, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) * PrimeField(2, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) * PrimeField(3, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) * PrimeField(4, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) * PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) * PrimeField(1, 5) == PrimeField(1, 5)
+    assert PrimeField(1, 5) * PrimeField(2, 5) == PrimeField(2, 5)
+    assert PrimeField(1, 5) * PrimeField(3, 5) == PrimeField(3, 5)
+    assert PrimeField(1, 5) * PrimeField(4, 5) == PrimeField(4, 5)
+    assert PrimeField(2, 5) * PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(2, 5) * PrimeField(1, 5) == PrimeField(2, 5)
+    assert PrimeField(2, 5) * PrimeField(2, 5) == PrimeField(4, 5)
+    assert PrimeField(2, 5) * PrimeField(3, 5) == PrimeField(1, 5)
+    assert PrimeField(2, 5) * PrimeField(4, 5) == PrimeField(3, 5)
+    assert PrimeField(3, 5) * PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(3, 5) * PrimeField(1, 5) == PrimeField(3, 5)
+    assert PrimeField(3, 5) * PrimeField(2, 5) == PrimeField(1, 5)
+    assert PrimeField(3, 5) * PrimeField(3, 5) == PrimeField(4, 5)
+    assert PrimeField(3, 5) * PrimeField(4, 5) == PrimeField(2, 5)
+    assert PrimeField(4, 5) * PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(4, 5) * PrimeField(1, 5) == PrimeField(4, 5)
+    assert PrimeField(4, 5) * PrimeField(2, 5) == PrimeField(3, 5)
+    assert PrimeField(4, 5) * PrimeField(3, 5) == PrimeField(2, 5)
+    assert PrimeField(4, 5) * PrimeField(4, 5) == PrimeField(1, 5)
+
+
+def test_inv():
+    with pytest.raises(ZeroDivisionError):
+        PrimeField(0, 7).inv
+    assert PrimeField(1, 7).inv == 1
+    assert PrimeField(2, 7).inv == 4
+    assert PrimeField(3, 7).inv == 5
+    assert PrimeField(4, 7).inv == 2
+    assert PrimeField(5, 7).inv == 3
+    assert PrimeField(6, 7).inv == 6
+
+
+# TODO
+def test_div():
+    assert PrimeField(0, 5) // PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) // PrimeField(1, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) // PrimeField(2, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) // PrimeField(3, 5) == PrimeField(0, 5)
+    assert PrimeField(0, 5) // PrimeField(4, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) // PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) // PrimeField(1, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) // PrimeField(2, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) // PrimeField(3, 5) == PrimeField(0, 5)
+    assert PrimeField(1, 5) // PrimeField(4, 5) == PrimeField(0, 5)
+    assert PrimeField(2, 5) // PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(2, 5) // PrimeField(1, 5) == PrimeField(0, 5)
+    assert PrimeField(2, 5) // PrimeField(2, 5) == PrimeField(0, 5)
+    assert PrimeField(2, 5) // PrimeField(3, 5) == PrimeField(0, 5)
+    assert PrimeField(2, 5) // PrimeField(4, 5) == PrimeField(0, 5)
+    assert PrimeField(3, 5) // PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(3, 5) // PrimeField(1, 5) == PrimeField(0, 5)
+    assert PrimeField(3, 5) // PrimeField(2, 5) == PrimeField(0, 5)
+    assert PrimeField(3, 5) // PrimeField(3, 5) == PrimeField(0, 5)
+    assert PrimeField(3, 5) // PrimeField(4, 5) == PrimeField(0, 5)
+    assert PrimeField(4, 5) // PrimeField(0, 5) == PrimeField(0, 5)
+    assert PrimeField(4, 5) // PrimeField(1, 5) == PrimeField(0, 5)
+    assert PrimeField(4, 5) // PrimeField(2, 5) == PrimeField(0, 5)
+    assert PrimeField(4, 5) // PrimeField(3, 5) == PrimeField(0, 5)
+    assert PrimeField(4, 5) // PrimeField(4, 5) == PrimeField(0, 5)

@@ -13,6 +13,7 @@ class PrimeField:
         assert 0 <= n < p
         self.__n = n
         self.__p = p
+        self.__inv = None
 
     def __repr__(self):
         return f"PrimeField({self.__n}, {self.__p})"
@@ -24,6 +25,16 @@ class PrimeField:
     @property
     def p(self):
         return self.__p
+
+    @property
+    def inv(self):
+        if self.__inv is None:
+            if self.__n == 0:
+                raise ZeroDivisionError(
+                    "0 does not have a modular inverse in a prime field"
+                )
+            self.__inv = pow(self.__n, -1, self.__p)
+        return self.__inv
 
     def __neg__(self):
         return PrimeField(0 if self.__n == 0 else self.__p - self.__n, self.__p)
@@ -90,5 +101,10 @@ class PrimeField:
         return self
 
     @__validate_prime_field_args
-    def __pow__(self, other):
-        return PrimeField(pow(self.__n, other.n, self.__p), self.__p)
+    def __floordiv__(self, other):
+        return PrimeField(self.__n * other.inv % self.__p, self.__p)
+
+    @__validate_prime_field_args
+    def __ifloordiv__(self, other):
+        self.__n = self.__n * other.inv % self.__p
+        return self
