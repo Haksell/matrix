@@ -5,9 +5,6 @@
 # TODO bonus
 # TODO test individually each function/method even if coverage 100%
 
-END := \033[0m
-GREEN := \033[1m\033[32m
-
 all:
 	@$(MAKE) --no-print-directory clean > /dev/null
 	@$(MAKE) --no-print-directory test
@@ -18,3 +15,6 @@ test:
 
 clean:
 	rm -rf __pycache__ .pytest_cache .coverage
+
+loc:
+	find . -name '*.py' | sort | xargs wc -l
