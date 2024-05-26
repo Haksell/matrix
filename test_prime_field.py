@@ -37,6 +37,16 @@ def test_cmp():
         assert PrimeField(3, 7) != PrimeField(5, 11)
 
 
+def test_neg():
+    assert -PrimeField(0, 7) == PrimeField(0, 7)
+    assert -PrimeField(1, 7) == PrimeField(6, 7)
+    assert -PrimeField(2, 7) == PrimeField(5, 7)
+    assert -PrimeField(3, 7) == PrimeField(4, 7)
+    assert -PrimeField(4, 7) == PrimeField(3, 7)
+    assert -PrimeField(5, 7) == PrimeField(2, 7)
+    assert -PrimeField(6, 7) == PrimeField(1, 7)
+
+
 def test_add():
     assert PrimeField(2, 7) + PrimeField(0, 7) == PrimeField(2, 7)
     assert PrimeField(2, 7) + PrimeField(2, 7) == PrimeField(4, 7)
