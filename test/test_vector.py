@@ -2,7 +2,6 @@
 # TODO test_init_matrix
 # TODO test mul/rmul
 # TODO test row and column vectors
-# TODO test norms of complex numbers
 # TODO test angle_cos of complex numbers
 # TODO test_angle_cos with 0 vector
 
@@ -51,6 +50,8 @@ def test_norm():
     assert norms(Vector([0, 0, 0])) == (0, 0, 0)
     assert norms(Vector([1, 2, 2])) == (5, 3, 2)
     assert norms(Vector([-4, 3])) == (7, 5, 4)
+    assert norms(Vector([-4j, 3])) == (7, 5, 4)
+    assert norms(Vector([3 - 4j, 0])) == (5, 5, 5)
 
 
 def test_angle_cos():

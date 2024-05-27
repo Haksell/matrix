@@ -89,6 +89,7 @@ class Vector:
 
     def dot(self, other):
         assert len(self) == len(other)
+        # sometimes defined as x * y.conjugate()
         return sum(x.conjugate() * y for x, y in zip(self, other))
 
     def __matmul__(self, other):
@@ -106,22 +107,20 @@ class Vector:
         return sum(map(abs, self))
 
     def norm(self):
-        return sqrt(self.dot(self))
+        return sqrt(self.dot(self).real)
 
     def norm_inf(self):
         return max(map(abs, self))
 
     def angle_cos(self, other):
-        assert type(other) == Vector
         assert len(self) == len(other)
         sn = self.norm()
         on = other.norm()
         assert sn and on, "can't compute angle with zero vectors"
-        c = (self @ other).real / (sn * on)
+        c = (self @ other) / (sn * on)
         return U.clamp(c, -1, 1)
 
     def cross(self, other):
-        assert type(other) == Vector
         assert len(self) == len(other) == 3
         return Vector(
             [
