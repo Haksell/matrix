@@ -11,7 +11,8 @@ test:
 	@pytest -rA -vv
 
 clean:
-	rm -rf __pycache__ src/__pycache__ .pytest_cache .coverage
+	rm -rf __pycache__ */__pycache__
+	rm -rf .pytest_cache */.pytest_cache
 	rm -rf $(PROJECTION_FOLDER) $(PROJECTION_LINK)
 
 $(PROJECTION_FOLDER):

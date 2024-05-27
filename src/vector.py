@@ -1,7 +1,7 @@
 from math import sqrt
 from numbers import Number
 from operator import eq
-import src.Matrix as M
+import src.matrix as M
 from src.utils import clamp, is_close
 
 

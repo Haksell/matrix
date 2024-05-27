@@ -1,6 +1,6 @@
 from copy import deepcopy
 from numbers import Number
-import src.Vector as V
+import src.vector as V
 
 
 class Matrix:
