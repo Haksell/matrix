@@ -1,4 +1,4 @@
-from classes import Matrix
+from src import Matrix
 import math
 
 
@@ -19,6 +19,5 @@ def projection_matrix(fov, ratio, near, far):
 
 
 if __name__ == "__main__":
-    # python ../projection_matrix.py | tee proj && ./display
     for row in projection_matrix(math.radians(80), 1, 0.1, 100):
         print(",".join(f"{x:g}" for x in row))
