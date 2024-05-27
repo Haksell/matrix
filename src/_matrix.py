@@ -4,9 +4,6 @@ import src._vector as V
 
 
 class Matrix:
-    # TODO Moore-Penrose pseudoinverse
-    # TODO Singular Value Decomposition
-    # TODO eigenstuff
     class SingularException(Exception):
         def __init__(self, matrix):
             super().__init__(f"{matrix} is singular")
