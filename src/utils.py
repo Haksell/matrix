@@ -1,5 +1,5 @@
 from math import isqrt
-import src.vector as V
+import src._vector as V
 
 
 def linear_combination(vecs, coefs):

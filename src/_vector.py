@@ -1,7 +1,7 @@
 from math import sqrt
 from numbers import Number
 from operator import eq
-import src.matrix as M
+import src._matrix as M
 import src.utils as U
 
 
