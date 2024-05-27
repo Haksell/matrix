@@ -1,9 +1,6 @@
 from functools import wraps
 from utils import is_prime
 
-# TODO: inverse
-# TODO: division by inverse
-
 
 class PrimeField:
     def __init__(self, n, p):
