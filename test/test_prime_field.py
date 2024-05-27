@@ -97,6 +97,19 @@ def test_mul():
 
 def test_inv():
     with pytest.raises(ZeroDivisionError):
+        PrimeField(0, 2).inv
+    assert PrimeField(1, 2).inv == 1
+    with pytest.raises(ZeroDivisionError):
+        PrimeField(0, 3).inv
+    assert PrimeField(1, 3).inv == 1
+    assert PrimeField(2, 3).inv == 2
+    with pytest.raises(ZeroDivisionError):
+        PrimeField(0, 5).inv
+    assert PrimeField(1, 5).inv == 1
+    assert PrimeField(2, 5).inv == 3
+    assert PrimeField(3, 5).inv == 2
+    assert PrimeField(4, 5).inv == 4
+    with pytest.raises(ZeroDivisionError):
         PrimeField(0, 7).inv
     assert PrimeField(1, 7).inv == 1
     assert PrimeField(2, 7).inv == 4
