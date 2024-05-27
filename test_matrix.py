@@ -4,7 +4,7 @@
 
 from fractions import Fraction
 import pytest
-from utils import is_close
+from src.utils import is_close
 from src import Matrix, Vector
 
 

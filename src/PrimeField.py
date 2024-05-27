@@ -1,5 +1,5 @@
 from functools import wraps
-from utils import is_prime
+from src.utils import is_prime
 
 
 class PrimeField:

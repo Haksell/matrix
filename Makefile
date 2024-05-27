@@ -11,3 +11,7 @@ clean:
 
 loc:
 	find . -name '*.py' | sort | xargs wc -l
+
+project:
+	@python projection_matrix.py | tee matrix_display/proj
+	@cd matrix_display && ./display

@@ -9,7 +9,7 @@
 from math import pi
 import pytest
 from src import Matrix, Vector
-from utils import is_close
+from src.utils import is_close
 
 
 def test_init():

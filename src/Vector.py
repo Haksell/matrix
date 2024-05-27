@@ -1,8 +1,8 @@
 from math import sqrt
 from numbers import Number
 from operator import eq
-from utils import clamp, is_close
 import src.Matrix as M
+from src.utils import clamp, is_close
 
 
 class Vector:

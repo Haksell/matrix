@@ -1,9 +1,9 @@
 import math
 import pytest
 from src import Matrix, Vector
-from functions import lerp, linear_combination
+from src.functions import lerp, linear_combination
 from projection_matrix import projection_matrix
-from utils import is_close
+from src.utils import is_close
 
 
 def test_linear_combination_valid():

@@ -1,4 +1,4 @@
-from utils import is_prime
+from src.utils import is_prime
 
 
 def test_is_prime():
