@@ -1,4 +1,4 @@
-from src.classes import Matrix
+from src import Matrix
 import math
 
 

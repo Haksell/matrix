@@ -2,10 +2,10 @@
 # TODO test_init_vector
 # TODO test complex multiplication
 
-from src.classes import Matrix, Vector
 from fractions import Fraction
 import pytest
 from utils import is_close
+from src import Matrix, Vector
 
 
 def test_mat_vec():

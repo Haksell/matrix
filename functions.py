@@ -1,4 +1,4 @@
-from src.classes import Vector
+from src import Vector
 
 
 def linear_combination(vecs, coefs):

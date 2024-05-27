@@ -1,6 +1,6 @@
 import math
 import pytest
-from src.PrimeField import PrimeField
+from src import PrimeField
 
 
 def test_init():

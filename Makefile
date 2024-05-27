@@ -1,3 +1,8 @@
+all:
+	-@$(MAKE) clean --no-print-directory
+	-@$(MAKE) test --no-print-directory
+	-@$(MAKE) clean --no-print-directory
+
 test:
 	@pytest -rA -vv
 

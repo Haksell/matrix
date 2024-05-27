@@ -8,7 +8,7 @@
 
 from math import pi
 import pytest
-from src.classes import Matrix, Vector
+from src import Matrix, Vector
 from utils import is_close
 
 
