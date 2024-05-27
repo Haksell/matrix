@@ -89,7 +89,7 @@ class Vector:
 
     def dot(self, other):
         assert len(self) == len(other)
-        return sum(x * y.conjugate() for x, y in zip(self, other))
+        return sum(x.conjugate() * y for x, y in zip(self, other))
 
     def __matmul__(self, other):
         if type(other) is Vector:

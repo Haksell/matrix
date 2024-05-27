@@ -31,6 +31,12 @@ def test_len():
 
 
 def test_matmul():
+    A = Vector([1 + 1j, 1 - 1j, -1 + 1j, -1 - 1j])
+    B = Vector([3 - 4j, 6 - 2j, 1 + 2j, 4 + 3j])
+    assert A @ A == 8
+    assert A @ B == 1 - 5j
+    assert B @ A == 1 + 5j
+    assert B @ B == 95
     assert Vector([1, 2, 3]) @ Vector([1, 2, 3]) == 14
     assert Vector([1, 0]) @ Vector([0, 1]) == 0
     assert Vector([1, 2]) @ Matrix([[1, 2, 3], [4, 5, 6]]) == Vector([9, 12, 15])
