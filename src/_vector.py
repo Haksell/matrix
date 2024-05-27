@@ -54,20 +54,24 @@ class Vector:
         return f"Vector({self.__data})"
 
     def __add__(self, other):
+        assert type(other) == Vector
         assert len(self) == len(other)
         return Vector([x + y for x, y in zip(self, other)])
 
     def __iadd__(self, other):
+        assert type(other) == Vector
         assert len(self) == len(other)
         for i, x in enumerate(other):
             self.__data[i] += x
         return self
 
     def __sub__(self, other):
+        assert type(other) == Vector
         assert len(self) == len(other)
         return Vector([x - y for x, y in zip(self, other)])
 
     def __isub__(self, other):
+        assert type(other) == Vector
         assert len(self) == len(other)
         for i, x in enumerate(other):
             self.__data[i] -= x
@@ -85,7 +89,7 @@ class Vector:
 
     def dot(self, other):
         assert len(self) == len(other)
-        return sum(x * y.conjugate() for x, y in zip(self, other)).real
+        return sum(x * y.conjugate() for x, y in zip(self, other))
 
     def __matmul__(self, other):
         if type(other) is Vector:
@@ -108,6 +112,7 @@ class Vector:
         return max(map(abs, self))
 
     def angle_cos(self, other):
+        assert type(other) == Vector
         assert len(self) == len(other)
         sn = self.norm()
         on = other.norm()
@@ -116,6 +121,7 @@ class Vector:
         return U.clamp(c, -1, 1)
 
     def cross(self, other):
+        assert type(other) == Vector
         assert len(self) == len(other) == 3
         return Vector(
             [
