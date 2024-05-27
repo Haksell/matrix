@@ -1,5 +1,6 @@
 PROJECTION_FOLDER := matrix_display
-PROJECTION_LINK := display_linux.tar.gz
+PROJECTION_TARBALL := display_linux.tar.gz
+PROJECTION_LINK := https://cdn.intra.42.fr/document/document/22648/$(PROJECTION_TARBALL)
 PROJECTION_MAIN := projection_matrix.py
 
 all:
@@ -13,14 +14,14 @@ test:
 clean:
 	rm -rf __pycache__ */__pycache__
 	rm -rf .pytest_cache */.pytest_cache
-	rm -rf $(PROJECTION_FOLDER) $(PROJECTION_LINK)
+	rm -rf $(PROJECTION_FOLDER) $(PROJECTION_TARBALL)
 
 $(PROJECTION_FOLDER):
-	@rm -rf $(PROJECTION_LINK)
+	@rm -rf $(PROJECTION_TARBALL)
 	@rm -rf $@
-	wget https://cdn.intra.42.fr/document/document/22648/$(PROJECTION_LINK)
-	tar xvf $(PROJECTION_LINK)
-	rm $(PROJECTION_LINK)
+	wget $(PROJECTION_LINK)
+	tar xvf $(PROJECTION_TARBALL)
+	rm $(PROJECTION_TARBALL)
 
 projection: $(PROJECTION_FOLDER)
 	@python $(PROJECTION_MAIN) | tee $(PROJECTION_FOLDER)/proj

@@ -2,7 +2,7 @@ from math import sqrt
 from numbers import Number
 from operator import eq
 import src.matrix as M
-from src.utils import clamp, is_close
+import src.utils as U
 
 
 class Vector:
@@ -34,7 +34,7 @@ class Vector:
         )
 
     def is_close(self, other):
-        return len(self) == len(other) and all(map(is_close, self, other))
+        return len(self) == len(other) and all(map(U.is_close, self, other))
 
     def __getitem__(self, idx):
         return self.__data[idx]
@@ -113,7 +113,7 @@ class Vector:
         on = other.norm()
         assert sn and on, "can't compute angle with zero vectors"
         c = (self @ other).real / (sn * on)
-        return clamp(c, -1, 1)
+        return U.clamp(c, -1, 1)
 
     def cross(self, other):
         assert len(self) == len(other) == 3

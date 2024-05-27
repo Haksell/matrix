@@ -1,11 +1,11 @@
 from functools import wraps
-from src.utils import is_prime
+import src.utils as U
 
 
 class PrimeField:
     def __init__(self, n, p):
         assert isinstance(p, int)
-        assert is_prime(p)
+        assert U.is_prime(p)
         assert isinstance(n, int)
         assert 0 <= n < p
         self.__n = n
