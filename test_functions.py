@@ -1,6 +1,6 @@
 import math
 import pytest
-from classes import Matrix, Vector
+from src.classes import Matrix, Vector
 from functions import lerp, linear_combination
 from projection_matrix import projection_matrix
 from utils import is_close

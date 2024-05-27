@@ -2,7 +2,7 @@
 # TODO test_init_vector
 # TODO test complex multiplication
 
-from classes import Matrix, Vector
+from src.classes import Matrix, Vector
 from fractions import Fraction
 import pytest
 from utils import is_close
