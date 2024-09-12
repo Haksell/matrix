@@ -24,8 +24,24 @@ def test_init():
         Vector(Matrix([[1, 2], [3, 4]]))
 
 
+def test_neg():
+    assert -Vector.zero(4) == Vector.zero(4)
+    assert -Vector.one(4) == Vector([-1, -1, -1, -1])
+    assert -Vector([1 + 2j, 3.14]) == Vector([-1 - 2j, -3.14])
+    assert Vector([1, 2 + 3j, -5.5]) + Vector([1j, 6, 9]) == Vector(
+        [1 + 1j, 8 + 3j, 3.5]
+    )
+
+
 def test_add():
     assert Vector.zero(4) + Vector.one(4) == Vector.one(4)
+    assert Vector([1, 2 + 3j, -5.5]) + Vector([1j, 6, 9]) == Vector(
+        [1 + 1j, 8 + 3j, 3.5]
+    )
+
+
+def test_sub():
+    assert Vector.zero(4) - Vector.one(4) == -Vector.one(4)
     assert Vector([1, 2 + 3j, -5.5]) + Vector([1j, 6, 9]) == Vector(
         [1 + 1j, 8 + 3j, 3.5]
     )

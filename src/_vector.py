@@ -85,6 +85,9 @@ class Vector:
             self.__data[i] += x
         return self
 
+    def __neg__(self):
+        return Vector([-x for x in self])
+
     @__validate_vector_args
     def __sub__(self, other):
         return Vector([x - y for x, y in zip(self, other)])
