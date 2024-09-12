@@ -36,6 +36,32 @@ def test_getitem():
         m[0.0]
 
 
+def test_setitem():
+    m = Matrix.zero(2, 3)
+    m[0][0] = 42
+    m[1] = Vector([1, 2, 3])
+    m[1][2] = 27
+    assert m == Matrix([[42, 0, 0], [1, 2, 27]])
+    with pytest.raises(Exception):
+        m[2][0] = 0
+    with pytest.raises(Exception):
+        m[1][3] = 0
+    with pytest.raises(Exception):
+        m[-1] = Vector([1, 2, 3])
+    with pytest.raises(Exception):
+        m[4] = Vector([1, 2, 3])
+    with pytest.raises(Exception):
+        m[0, 0, 0] = 0
+    with pytest.raises(Exception):
+        m[0.0] = Vector([1, 2, 3])
+    with pytest.raises(Exception):
+        m[0] = Vector([1, 2])
+    with pytest.raises(Exception):
+        m[0] = 42
+    with pytest.raises(Exception):
+        m[0][0] = Vector([1, 2, 3])
+
+
 def test_mat_vec():
     assert Matrix([[1, 0], [0, 1]]).mul_vec(Vector([4, 2])) == Vector([4, 2])
     assert Matrix([[2, 0], [0, 2]]).mul_vec(Vector([4, 2])) == Vector([8, 4])

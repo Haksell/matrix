@@ -83,13 +83,24 @@ class Matrix:
                 f"Matrix index should be an int or a tupe (int, int), not {idx}"
             )
 
-    # TODO: setitem
-
     def __setitem__(self, idx, item):
-        assert 0 <= idx < len(self)
-        assert isinstance(item, V.Vector)
-        assert len(item) == self.__width
-        self.__data[idx] = item
+        if isinstance(idx, int):
+            assert 0 <= idx < self.__height
+            assert isinstance(item, V.Vector)
+            assert len(item) == self.__width
+            self.__data[idx] = item
+        elif isinstance(idx, tuple):
+            assert len(idx) == 2
+            assert all(isinstance(i, int) for i in idx)
+            assert isinstance(item, Number)
+            y, x = idx
+            assert 0 <= y < self.__height
+            assert 0 <= x < self.__width
+            self.__data[y][x] = item
+        else:
+            raise TypeError(
+                f"Matrix index should be an int or a tupe (int, int), not {idx}"
+            )
 
     def __iter__(self):
         yield from self.__data
