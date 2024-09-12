@@ -67,10 +67,23 @@ class Matrix:
     def is_close(self, other):
         return all(map(V.Vector.is_close, self, other))
 
-    # TODO: better getitem and setitem
-
     def __getitem__(self, idx):
-        return self.__data[idx]
+        if isinstance(idx, int):
+            assert 0 <= idx < self.__height
+            return self.__data[idx]
+        elif isinstance(idx, tuple):
+            assert len(idx) == 2
+            assert all(isinstance(i, int) for i in idx)
+            y, x = idx
+            assert 0 <= y < self.__height
+            assert 0 <= x < self.__width
+            return self.__data[y][x]
+        else:
+            raise TypeError(
+                f"Matrix index should be an int or a tupe (int, int), not {idx}"
+            )
+
+    # TODO: setitem
 
     def __setitem__(self, idx, item):
         assert 0 <= idx < len(self)

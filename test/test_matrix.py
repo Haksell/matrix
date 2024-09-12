@@ -14,6 +14,28 @@ def test_init():
         Matrix([[], [], []])
 
 
+def test_getitem():
+    m = Matrix([[1, 2, 3], [4, 5, 6]])
+    assert m[0][0] == m[0, 0] == 1
+    assert m[0][1] == m[0, 1] == 2
+    assert m[0][2] == m[0, 2] == 3
+    assert m[1][0] == m[1, 0] == 4
+    assert m[1][1] == m[1, 1] == 5
+    assert m[1][2] == m[1, 2] == 6
+    with pytest.raises(Exception):
+        m[2][0]
+    with pytest.raises(Exception):
+        m[1][3]
+    with pytest.raises(Exception):
+        m[-1]
+    with pytest.raises(Exception):
+        m[4]
+    with pytest.raises(Exception):
+        m[0, 0, 0]
+    with pytest.raises(Exception):
+        m[0.0]
+
+
 def test_mat_vec():
     assert Matrix([[1, 0], [0, 1]]).mul_vec(Vector([4, 2])) == Vector([4, 2])
     assert Matrix([[2, 0], [0, 2]]).mul_vec(Vector([4, 2])) == Vector([8, 4])
