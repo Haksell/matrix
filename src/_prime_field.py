@@ -3,6 +3,16 @@ import src.utils as U
 
 
 class PrimeField:
+    @staticmethod
+    def __validate_prime_field_args(method):
+        @wraps(method)
+        def wrapper(self, other):
+            assert isinstance(other, self.__class__)
+            assert self.__p == other.p
+            return method(self, other)
+
+        return wrapper
+
     def __init__(self, n, p):
         assert isinstance(p, int)
         assert U.is_prime(p)
@@ -35,16 +45,6 @@ class PrimeField:
 
     def __neg__(self):
         return PrimeField(0 if self.__n == 0 else self.__p - self.__n, self.__p)
-
-    @staticmethod
-    def __validate_prime_field_args(method):
-        @wraps(method)
-        def wrapper(self, other):
-            assert isinstance(other, self.__class__)
-            assert self.__p == other.p
-            return method(self, other)
-
-        return wrapper
 
     @__validate_prime_field_args
     def __eq__(self, other):
