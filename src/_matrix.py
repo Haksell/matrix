@@ -121,6 +121,9 @@ class Matrix:
             self.__data[i] += x
         return self
 
+    def __neg__(self):
+        return Matrix([-x for x in self])
+
     @__validate_matrix_args
     def __sub__(self, other):
         return V.Vector([x - y for x, y in zip(self, other)])

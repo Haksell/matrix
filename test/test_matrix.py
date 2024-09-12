@@ -62,6 +62,11 @@ def test_setitem():
         m[0][0] = Vector([1, 2, 3])
 
 
+def test_neg():
+    assert -Matrix.identity(3) == Matrix([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])
+    assert -Matrix([[1, 2], [3.14, 5j]]) == Matrix([[-1, -2], [-3.14, -5j]])
+
+
 def test_mat_vec():
     assert Matrix([[1, 0], [0, 1]]).mul_vec(Vector([4, 2])) == Vector([4, 2])
     assert Matrix([[2, 0], [0, 2]]).mul_vec(Vector([4, 2])) == Vector([8, 4])
