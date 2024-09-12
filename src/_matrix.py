@@ -1,4 +1,5 @@
 from copy import deepcopy
+from functools import wraps
 from numbers import Number
 import src._vector as V
 
@@ -7,6 +8,16 @@ class Matrix:
     class SingularException(Exception):
         def __init__(self, matrix):
             super().__init__(f"{matrix} is singular")
+
+    @staticmethod
+    def __validate_matrix_args(method):
+        @wraps(method)
+        def wrapper(self, other):
+            assert type(other) is Matrix
+            assert self.shape == other.shape
+            return method(self, other)
+
+        return wrapper
 
     def __init__(self, data):
         if isinstance(data, list):
@@ -48,15 +59,15 @@ class Matrix:
         assert h >= 1
         return Matrix([[1.0] * w for _ in range(h)])
 
+    @__validate_matrix_args
     def __eq__(self, other):
-        return (
-            type(self) is type(other)
-            and self.shape == other.shape
-            and all(map(V.Vector.__eq__, self, other))
-        )
+        return all(map(V.Vector.__eq__, self, other))
 
+    @__validate_matrix_args
     def is_close(self, other):
-        return self.shape == other.shape and all(map(V.Vector.is_close, self, other))
+        return all(map(V.Vector.is_close, self, other))
+
+    # TODO: better getitem and setitem
 
     def __getitem__(self, idx):
         return self.__data[idx]
@@ -76,26 +87,22 @@ class Matrix:
     def __repr__(self):
         return f"Matrix({list(map(list, self))})"
 
+    @__validate_matrix_args
     def __add__(self, other):
-        assert type(other) is Matrix
-        assert self.shape == other.shape
         return Matrix([x + y for x, y in zip(self, other)])
 
+    @__validate_matrix_args
     def __iadd__(self, other):
-        assert type(other) is Matrix
-        assert self.shape == other.shape
         for i, x in enumerate(other):
             self.__data[i] += x
         return self
 
+    @__validate_matrix_args
     def __sub__(self, other):
-        assert type(other) is Matrix
-        assert self.shape == other.shape
         return V.Vector([x - y for x, y in zip(self, other)])
 
+    @__validate_matrix_args
     def __isub__(self, other):
-        assert type(other) is Matrix
-        assert self.shape == other.shape
         for i, x in enumerate(other):
             self.__data[i] -= x
         return self
