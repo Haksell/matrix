@@ -20,6 +20,9 @@ def test_linear_combination_valid():
     assert linear_combination(
         [Vector([1, 0, 0]), Vector([0, 1, 0]), Vector([0, 0, 1])], [1, 2, 3]
     ) == Vector([1, 2, 3])
+    assert linear_combination(
+        [Vector([1, 2, 3j]), Vector([4, 5j, 6])], [7, 8]
+    ) == Vector([39, 14 + 40j, 48 + 21j])
 
 
 def test_linear_combination_invalid():
@@ -44,6 +47,7 @@ def test_lerp_vector():
     assert lerp(Vector([0, 1]), Vector([1, 0]), 0) == Vector([0, 1])
     assert lerp(Vector([0, 1]), Vector([1, 0]), 0.5) == Vector([0.5, 0.5])
     assert lerp(Vector([0, 1]), Vector([1, 0]), 1) == Vector([1, 0])
+    assert lerp(Vector([3, 2 + 3j]), Vector([-1, 4j]), 0.75) == Vector([0, 0.5 + 3.75j])
 
 
 def test_lerp_matrix():

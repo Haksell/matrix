@@ -1,3 +1,8 @@
+# This file is independent from the rest of the project.
+# PrimeField should work with Vector/Matrix for simple operations like +, - and transpose.
+# However, there is no guarantee that more advanced operations such as the rank, the inverse
+# or linear combinations will run or produce sensible results.
+
 from functools import wraps
 import src.utils as U
 

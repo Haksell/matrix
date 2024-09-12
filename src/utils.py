@@ -3,15 +3,15 @@ import src._vector as V
 
 
 def linear_combination(vecs, coefs):
-    assert vecs
-    assert len(vecs) == len(coefs)
+    assert len(vecs) == len(coefs) >= 1
     size = len(vecs[0])
     assert all(len(x) == size for x in vecs)
-    return sum(map(V.Vector.__mul__, vecs, coefs), V.Vector([0] * size))
+    return sum(map(V.Vector.__mul__, vecs, coefs), V.Vector.zero(size))
 
 
 def lerp(u, v, t):
     assert type(u) is type(v)
+    assert isinstance(t, int) or isinstance(t, float)
     assert 0 <= t <= 1  # the subject is not clear on this point
     return u * (1 - t) + v * t
 
