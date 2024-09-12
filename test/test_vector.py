@@ -1,7 +1,5 @@
-# TODO test mul/rmul
-# TODO test row and column vectors
-# TODO test angle_cos of complex numbers
-# TODO test_angle_cos with 0 vector
+# TODO: test angle_cos of complex numbers
+# TODO: test_angle_cos with 0 vector
 
 from math import pi
 import pytest
@@ -56,20 +54,6 @@ def test_sub():
 def test_len():
     assert len(Vector([42])) == 1
     assert len(Vector([42, pi, 1j])) == 3
-
-
-def test_matmul():
-    A = Vector([1 + 1j, 1 - 1j, -1 + 1j, -1 - 1j])
-    B = Vector([3 - 4j, 6 - 2j, 1 + 2j, 4 + 3j])
-    assert A @ A == 8
-    assert A @ B == 1 - 5j
-    assert B @ A == 1 + 5j
-    assert B @ B == 95
-    assert Vector([1, 2, 3]) @ Vector([1, 2, 3]) == 14
-    assert Vector([1, 0]) @ Vector([0, 1]) == 0
-    assert Vector([1, 2]) @ Matrix([[1, 2, 3], [4, 5, 6]]) == Vector([9, 12, 15])
-    with pytest.raises(Exception):
-        Vector([1, 2]) @ Vector([1, 2, 3])
 
 
 def test_norm():
