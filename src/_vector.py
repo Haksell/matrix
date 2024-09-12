@@ -1,3 +1,4 @@
+from functools import wraps
 from math import sqrt
 from numbers import Number
 from operator import eq
@@ -26,17 +27,38 @@ class Vector:
             assert len(self.__data) > 0
             assert all(isinstance(x, Number) for x in self.__data)
 
-    def __eq__(self, other):
-        return (
-            type(self) is type(other)
-            and len(self) == len(other)
-            and all(map(eq, self, other))
-        )
+    @staticmethod
+    def zero(n):
+        assert isinstance(n, int)
+        assert n >= 1
+        return Vector([0.0] * n)
 
+    @staticmethod
+    def one(n):
+        assert isinstance(n, int)
+        assert n >= 1
+        return Vector([1.0] * n)
+
+    @staticmethod
+    def __validate_vector_args(method):
+        @wraps(method)
+        def wrapper(self, other):
+            assert type(other) is Vector
+            assert len(self) == len(other)
+            return method(self, other)
+
+        return wrapper
+
+    @__validate_vector_args
+    def __eq__(self, other):
+        return all(map(eq, self, other))
+
+    @__validate_vector_args
     def is_close(self, other):
-        return len(self) == len(other) and all(map(U.is_close, self, other))
+        return all(map(U.is_close, self, other))
 
     def __getitem__(self, idx):
+        assert 0 <= idx < len(self)
         return self.__data[idx]
 
     def __setitem__(self, idx, item):
@@ -53,26 +75,22 @@ class Vector:
     def __repr__(self):
         return f"Vector({self.__data})"
 
+    @__validate_vector_args
     def __add__(self, other):
-        assert type(other) is Vector
-        assert len(self) == len(other)
         return Vector([x + y for x, y in zip(self, other)])
 
+    @__validate_vector_args
     def __iadd__(self, other):
-        assert type(other) is Vector
-        assert len(self) == len(other)
         for i, x in enumerate(other):
             self.__data[i] += x
         return self
 
+    @__validate_vector_args
     def __sub__(self, other):
-        assert type(other) is Vector
-        assert len(self) == len(other)
         return Vector([x - y for x, y in zip(self, other)])
 
+    @__validate_vector_args
     def __isub__(self, other):
-        assert type(other) is Vector
-        assert len(self) == len(other)
         for i, x in enumerate(other):
             self.__data[i] -= x
         return self
@@ -87,9 +105,9 @@ class Vector:
             self.__data[i] *= x
         return self
 
+    @__validate_vector_args
     def dot(self, other):
-        assert len(self) == len(other)
-        # sometimes defined as x * y.conjugate()
+        # TODO: x * y.conjugate()?
         return sum(x.conjugate() * y for x, y in zip(self, other))
 
     def __matmul__(self, other):
@@ -112,14 +130,15 @@ class Vector:
     def norm_inf(self):
         return max(map(abs, self))
 
+    @__validate_vector_args
     def angle_cos(self, other):
-        assert len(self) == len(other)
         sn = self.norm()
         on = other.norm()
         assert sn and on, "can't compute angle with zero vectors"
         c = (self @ other) / (sn * on)
         return U.clamp(c, -1, 1)
 
+    @__validate_vector_args
     def cross(self, other):
         assert len(self) == len(other) == 3
         return Vector(

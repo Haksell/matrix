@@ -77,26 +77,31 @@ class Matrix:
         return f"Matrix({list(map(list, self))})"
 
     def __add__(self, other):
+        assert type(other) is Matrix
         assert self.shape == other.shape
         return Matrix([x + y for x, y in zip(self, other)])
 
     def __iadd__(self, other):
+        assert type(other) is Matrix
         assert self.shape == other.shape
         for i, x in enumerate(other):
             self.__data[i] += x
         return self
 
     def __sub__(self, other):
+        assert type(other) is Matrix
         assert self.shape == other.shape
         return V.Vector([x - y for x, y in zip(self, other)])
 
     def __isub__(self, other):
+        assert type(other) is Matrix
         assert self.shape == other.shape
         for i, x in enumerate(other):
             self.__data[i] -= x
         return self
 
     def __mul__(self, x):
+        assert isinstance(x, Number)
         return Matrix([x * y for y in self])
 
     __rmul__ = __mul__
@@ -107,12 +112,12 @@ class Matrix:
         return self
 
     def mul_vec(self, other):
+        assert type(other) is V.Vector
         assert self.width == len(other)
         return V.Vector([x.dot(other) for x in self])
 
     def mul_mat(self, other):
-        # TODO test complex multiplication
-        # https://mathworld.wolfram.com/ComplexMatrix.html
+        assert type(other) is Matrix
         assert self.width == other.height
         return Matrix([self.mul_vec(x) for x in other.transpose()]).transpose()
 

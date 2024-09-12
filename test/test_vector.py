@@ -24,6 +24,13 @@ def test_init():
         Vector(Matrix([[1, 2], [3, 4]]))
 
 
+def test_add():
+    assert Vector.zero(4) + Vector.one(4) == Vector.one(4)
+    assert Vector([1, 2 + 3j, -5.5]) + Vector([1j, 6, 9]) == Vector(
+        [1 + 1j, 8 + 3j, 3.5]
+    )
+
+
 def test_len():
     assert len(Vector([42])) == 1
     assert len(Vector([42, pi, 1j])) == 3
