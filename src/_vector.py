@@ -7,6 +7,16 @@ import src.utils as U
 
 
 class Vector:
+    @staticmethod
+    def __validate_vector_args(method):
+        @wraps(method)
+        def wrapper(self, other):
+            assert type(other) is Vector
+            assert len(self) == len(other)
+            return method(self, other)
+
+        return wrapper
+
     def __init__(self, data):
         if type(data) is M.Matrix:
             if data.height == 1:
@@ -38,16 +48,6 @@ class Vector:
         assert isinstance(n, int)
         assert n >= 1
         return Vector([1.0] * n)
-
-    @staticmethod
-    def __validate_vector_args(method):
-        @wraps(method)
-        def wrapper(self, other):
-            assert type(other) is Vector
-            assert len(self) == len(other)
-            return method(self, other)
-
-        return wrapper
 
     @__validate_vector_args
     def __eq__(self, other):
