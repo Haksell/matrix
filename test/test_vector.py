@@ -47,6 +47,12 @@ def test_sub():
     )
 
 
+def test_scale():
+    assert Vector.zero(4) * 3.14 == -Vector.zero(4)
+    assert Vector.one(4) * 3.14 == Vector([3.14, 3.14, 3.14, 3.14])
+    assert Vector([1j, 2]) * (3 + 4j) == Vector([-4 + 3j, 6 + 8j])
+
+
 def test_len():
     assert len(Vector([42])) == 1
     assert len(Vector([42, pi, 1j])) == 3
