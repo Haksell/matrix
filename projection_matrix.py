@@ -2,18 +2,18 @@ from src import Matrix
 import math
 
 
-def projection_matrix(fov, ratio, near, far):
-    assert 0 < fov < math.pi
+def projection_matrix(v_fov, ratio, near, far):
+    assert 0 < v_fov < math.pi
     assert ratio > 0
     assert 0 < near < far
-    scale = 1 / math.tan(fov * 0.5)
+    scale = 1 / math.tan(v_fov * 0.5)
     nf = 1 / (near - far)
     return Matrix(
         [
             [scale / ratio, 0, 0, 0],
             [0, scale, 0, 0],
             [0, 0, (far + near) * nf, -1],
-            [0, 0, far * near * nf, 0],
+            [0, 0, far * near * nf, 0],  # no *2, because our NDC are [0, 1]
         ]
     )
 
