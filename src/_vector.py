@@ -54,24 +54,24 @@ class Vector:
         return f"Vector({self.__data})"
 
     def __add__(self, other):
-        assert type(other) == Vector
+        assert type(other) is Vector
         assert len(self) == len(other)
         return Vector([x + y for x, y in zip(self, other)])
 
     def __iadd__(self, other):
-        assert type(other) == Vector
+        assert type(other) is Vector
         assert len(self) == len(other)
         for i, x in enumerate(other):
             self.__data[i] += x
         return self
 
     def __sub__(self, other):
-        assert type(other) == Vector
+        assert type(other) is Vector
         assert len(self) == len(other)
         return Vector([x - y for x, y in zip(self, other)])
 
     def __isub__(self, other):
-        assert type(other) == Vector
+        assert type(other) is Vector
         assert len(self) == len(other)
         for i, x in enumerate(other):
             self.__data[i] -= x

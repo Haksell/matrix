@@ -18,6 +18,10 @@ def projection_matrix(v_fov, ratio, near, far):
     )
 
 
-if __name__ == "__main__":
+def main():
     for row in projection_matrix(math.radians(80), 1, 0.1, 100):
         print(",".join(f"{x:g}" for x in row))
+
+
+if __name__ == "__main__":
+    main()
