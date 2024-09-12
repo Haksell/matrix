@@ -38,7 +38,7 @@ class Matrix:
             w = h
         assert isinstance(h, int)
         assert h >= 1
-        return Matrix([[0] * w for _ in range(h)])
+        return Matrix([[0.0] * w for _ in range(h)])
 
     @staticmethod
     def one(h, w=None):
@@ -46,7 +46,7 @@ class Matrix:
             w = h
         assert isinstance(h, int)
         assert h >= 1
-        return Matrix([[1] * w for _ in range(h)])
+        return Matrix([[1.0] * w for _ in range(h)])
 
     def __eq__(self, other):
         return (
