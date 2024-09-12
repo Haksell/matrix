@@ -1,5 +1,3 @@
-# TODO test repr
-# TODO test_init_matrix
 # TODO test mul/rmul
 # TODO test row and column vectors
 # TODO test angle_cos of complex numbers
@@ -22,6 +20,8 @@ def test_init():
         Vector()
     with pytest.raises(Exception):
         Vector(42)
+    with pytest.raises(Exception):
+        Vector(Matrix([[1, 2], [3, 4]]))
 
 
 def test_len():

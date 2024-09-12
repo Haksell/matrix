@@ -1,11 +1,17 @@
-# TODO test repr
-# TODO test_init_vector
 # TODO test complex multiplication
 
 from fractions import Fraction
 import pytest
 from src.utils import is_close
 from src import Matrix, Vector
+
+
+def test_init():
+    assert Matrix(Vector([1, 2, 3])) == Matrix([[1], [2], [3]])
+    with pytest.raises(Exception):
+        Matrix([])
+    with pytest.raises(Exception):
+        Matrix([[], [], []])
 
 
 def test_mat_vec():

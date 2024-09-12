@@ -14,17 +14,17 @@ class Vector:
                 self.__data = [x[0] for x in data]
             else:
                 raise ValueError(
-                    "Matrix must be a row or column vector, not {data.height}x{data.width}"
+                    f"Matrix must be a row or column vector, not {data.height}x{data.width}"
                 )
         else:
             try:
                 self.__data = list(data)
-                assert len(self.__data) > 0
-                assert all(isinstance(x, Number) for x in self.__data)
             except TypeError:
                 raise TypeError(
                     f"{self.__class__.__name__} can't be constructed from type {type(data).__name__}"
                 )
+            assert len(self.__data) > 0
+            assert all(isinstance(x, Number) for x in self.__data)
 
     def __eq__(self, other):
         return (
