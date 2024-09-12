@@ -30,7 +30,7 @@ class Matrix:
     def identity(n):
         assert isinstance(n, int)
         assert n >= 1
-        return Matrix([[1 if x == y else 0 for x in range(n)] for y in range(n)])
+        return Matrix([[float(x == y) for x in range(n)] for y in range(n)])
 
     @staticmethod
     def zero(h, w=None):
