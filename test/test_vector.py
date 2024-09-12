@@ -33,6 +33,12 @@ def test_neg():
     )
 
 
+def test_scale():
+    assert Vector.zero(4) * 3.14 == -Vector.zero(4)
+    assert Vector.one(4) * 3.14 == Vector([3.14, 3.14, 3.14, 3.14])
+    assert Vector([1j, 2]) * (3 + 4j) == Vector([-4 + 3j, 6 + 8j])
+
+
 def test_add():
     assert Vector.zero(4) + Vector.one(4) == Vector.one(4)
     assert Vector([1, 2 + 3j, -5.5]) + Vector([1j, 6, 9]) == Vector(
@@ -45,12 +51,6 @@ def test_sub():
     assert Vector([1, 2 + 3j, -5.5]) + Vector([1j, 6, 9]) == Vector(
         [1 + 1j, 8 + 3j, 3.5]
     )
-
-
-def test_scale():
-    assert Vector.zero(4) * 3.14 == -Vector.zero(4)
-    assert Vector.one(4) * 3.14 == Vector([3.14, 3.14, 3.14, 3.14])
-    assert Vector([1j, 2]) * (3 + 4j) == Vector([-4 + 3j, 6 + 8j])
 
 
 def test_len():

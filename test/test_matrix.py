@@ -67,6 +67,36 @@ def test_neg():
     assert -Matrix([[1, 2], [3.14, 5j]]) == Matrix([[-1, -2], [-3.14, -5j]])
 
 
+def test_scale():
+    assert Matrix([[1, 2], [3 + 4j, 5]]) * 0.5 == Matrix([[0.5, 1.0], [1.5 + 2j, 2.5]])
+    with pytest.raises(Exception):
+        Matrix.identity(3) * Matrix.zero(3)
+
+
+def test_add():
+    assert Matrix.identity(3) + 3.25 * Matrix.one(3) == Matrix(
+        [
+            [4.25, 3.25, 3.25],
+            [3.25, 4.25, 3.25],
+            [3.25, 3.25, 4.25],
+        ]
+    )
+    with pytest.raises(Exception):
+        Matrix.identity(2) + Matrix.zero(3)
+
+
+def test_sub():
+    assert Matrix.identity(3) - 3.25 * Matrix.one(3) == Matrix(
+        [
+            [-2.25, -3.25, -3.25],
+            [-3.25, -2.25, -3.25],
+            [-3.25, -3.25, -2.25],
+        ]
+    )
+    with pytest.raises(Exception):
+        Matrix.identity(2) - 42
+
+
 def test_mat_vec():
     assert Matrix([[1, 0], [0, 1]]).mul_vec(Vector([4, 2])) == Vector([4, 2])
     assert Matrix([[2, 0], [0, 2]]).mul_vec(Vector([4, 2])) == Vector([8, 4])

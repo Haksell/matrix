@@ -47,16 +47,16 @@ class Matrix:
     def zero(h, w=None):
         if w is None:
             w = h
-        assert isinstance(h, int)
-        assert h >= 1
+        assert isinstance(h, int) and isinstance(w, int)
+        assert h >= 1 and w >= 1
         return Matrix([[0.0] * w for _ in range(h)])
 
     @staticmethod
     def one(h, w=None):
         if w is None:
             w = h
-        assert isinstance(h, int)
-        assert h >= 1
+        assert isinstance(h, int) and isinstance(w, int)
+        assert h >= 1 and w >= 1
         return Matrix([[1.0] * w for _ in range(h)])
 
     @__validate_matrix_args
@@ -126,7 +126,7 @@ class Matrix:
 
     @__validate_matrix_args
     def __sub__(self, other):
-        return V.Vector([x - y for x, y in zip(self, other)])
+        return Matrix([x - y for x, y in zip(self, other)])
 
     @__validate_matrix_args
     def __isub__(self, other):
