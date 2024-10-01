@@ -13,3 +13,11 @@
 - [ ] Moore-Penrose pseudoinverse
 - [ ] Singular Value Decomposition
 - [ ] eigenstuff
+
+## ???
+
+- [ ] test all sorts of dot profusely (matrix/vector, real/complex)
+- [ ] `.conjugate`
+- [ ] `.conjugate_transpose`
+- [ ] `.is_hermitian`
+- [ ] `.is_unitary`
