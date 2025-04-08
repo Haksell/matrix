@@ -1,5 +1,6 @@
-__pycache__
-.coverage
-.pytest_cache
+target/
+__pycache__/
+.coverage/
+.pytest_cache/
 main.py
 matrix_display
