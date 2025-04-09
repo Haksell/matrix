@@ -3,7 +3,6 @@
 ## todo
 
 - functions to go from and to arrays/vectors/matrices
-- better names for macros
 - `Matrix::identity`
 - `XxxAssign` traits
 - index + indexmut traits
