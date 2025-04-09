@@ -1,7 +1,5 @@
 #![no_std]
 
-use core::ops::{Add, Mul};
-
 mod field;
 mod matrix;
 mod vector;
@@ -11,6 +9,8 @@ pub use {
     matrix::Matrix,
     vector::Vector,
 };
+
+use core::ops::{Add, Mul};
 
 pub fn linear_combination<K: Field, const N: usize>(
     vecs: &[Vector<K, N>],
