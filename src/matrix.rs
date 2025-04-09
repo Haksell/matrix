@@ -6,6 +6,10 @@ pub struct Matrix<K: Field, const H: usize, const W: usize> {
 }
 
 impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
+    pub const fn from(values: [[K; W]; H]) -> Self {
+        Self { values }
+    }
+
     pub const fn height(&self) -> usize {
         H
     }
@@ -40,6 +44,14 @@ mod tests {
         assert_eq!(
             Matrix::<f32, 2, 3>::default().values,
             [[0., 0., 0.], [0., 0., 0.]]
+        );
+    }
+
+    #[test]
+    fn test_from() {
+        assert_eq!(
+            Matrix::from([[1., 2.], [3.14, 4.2], [5., 6.]]).values,
+            [[1., 2.], [3.14, 4.2], [5., 6.]]
         );
     }
 

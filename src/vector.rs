@@ -6,6 +6,10 @@ pub struct Vector<K: Field, const N: usize> {
 }
 
 impl<K: Field, const N: usize> Vector<K, N> {
+    pub const fn from(values: [K; N]) -> Self {
+        Self { values }
+    }
+
     pub const fn len(&self) -> usize {
         N
     }
@@ -48,8 +52,16 @@ mod tests {
     }
 
     #[test]
+    fn test_from() {
+        assert_eq!(
+            Vector::from([1., 2., 3.14, 4.2]).values,
+            [1., 2., 3.14, 4.2]
+        );
+    }
+
+    #[test]
     fn test_len() {
-        assert_eq!(Vector::<f32, 42>::default().len(), 42);
+        assert_eq!(Vector::from([1., 2., 3., 4.]).len(), 4);
     }
 
     // TODO: more tests
@@ -58,6 +70,18 @@ mod tests {
         assert_eq!(
             Vector::<f32, 42>::default() + Vector::<f32, 42>::default(),
             Vector::<f32, 42>::default()
+        );
+        assert_eq!(
+            Vector::from([1., 2.]) + &Vector::from([3., 4.]),
+            Vector::from([4., 6.])
+        );
+        assert_eq!(
+            &Vector::from([1., 2.]) + Vector::from([3., 4.]),
+            Vector::from([4., 6.])
+        );
+        assert_eq!(
+            &Vector::from([1., 2.5]) + &Vector::from([3., -4.]),
+            Vector::from([4., -1.5])
         );
     }
 }
