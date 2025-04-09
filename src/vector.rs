@@ -67,6 +67,14 @@ macro_rules! impl_vector_vector {
                 }
             }
         }
+
+        impl<K: Field, const N: usize> core::ops::Mul<$rhs> for $lhs {
+            type Output = K;
+
+            fn mul(self, rhs: $rhs) -> Self::Output {
+                (0..N).map(|i| self[i] * rhs[i]).sum()
+            }
+        }
     };
 }
 
@@ -153,5 +161,12 @@ mod tests {
         assert_eq!(v![1., 2.] * &3., v![3., 6.]);
         assert_eq!(&v![1., 2.] * -2.5, v![-2.5, -5.]);
         assert_eq!(&v![1., 2.5, 0.] * &0., v![0., 0., 0.]);
+    }
+
+    #[test]
+    fn test_dot_product() {
+        assert_eq!(Vector::<f32, 2>::zeros() * Vector::<f32, 2>::ones(), 0.);
+        assert_eq!(&Vector::<f32, 2>::ones() * Vector::<f32, 2>::ones(), 2.);
+        assert_eq!(&v![-1., 6.] * v![3., 2.], 9.);
     }
 }
