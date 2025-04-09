@@ -45,6 +45,60 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
     }
 }
 
+macro_rules! impl_matrix_matrix {
+    ($lhs:ty, $rhs:ty) => {
+        impl<K: Field, const H: usize, const W: usize> core::ops::Add<$rhs> for $lhs {
+            type Output = Matrix<K, H, W>;
+
+            fn add(self, rhs: $rhs) -> Matrix<K, H, W> {
+                Matrix {
+                    values: core::array::from_fn(|y| {
+                        core::array::from_fn(|x| self.values[y][x] + rhs.values[y][x])
+                    }),
+                }
+            }
+        }
+
+        impl<K: Field, const H: usize, const W: usize> core::ops::Sub<$rhs> for $lhs {
+            type Output = Matrix<K, H, W>;
+
+            fn sub(self, rhs: $rhs) -> Matrix<K, H, W> {
+                Matrix {
+                    values: core::array::from_fn(|y| {
+                        core::array::from_fn(|x| self.values[y][x] - rhs.values[y][x])
+                    }),
+                }
+            }
+        }
+    };
+}
+
+impl_matrix_matrix!(Matrix<K, H, W>, Matrix<K, H, W>);
+impl_matrix_matrix!(Matrix<K, H, W>, &Matrix<K, H, W>);
+impl_matrix_matrix!(&Matrix<K, H, W>, Matrix<K, H, W>);
+impl_matrix_matrix!(&Matrix<K, H, W>, &Matrix<K, H, W>);
+
+macro_rules! impl_matrix_scalar {
+    ($lhs:ty, $rhs:ty) => {
+        impl<K: Field, const H: usize, const W: usize> core::ops::Mul<$rhs> for $lhs {
+            type Output = Matrix<K, H, W>;
+
+            fn mul(self, rhs: $rhs) -> Self::Output {
+                Matrix {
+                    values: core::array::from_fn(|y| {
+                        core::array::from_fn(|x| self.values[y][x] * rhs)
+                    }),
+                }
+            }
+        }
+    };
+}
+
+impl_matrix_scalar!(Matrix<K, H, W>, K);
+impl_matrix_scalar!(&Matrix<K, H, W>, K);
+impl_matrix_scalar!(Matrix<K, H, W>, &K);
+impl_matrix_scalar!(&Matrix<K, H, W>, &K);
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -74,5 +128,58 @@ mod tests {
     fn test_is_square() {
         assert!(!Matrix::<f32, 2, 3>::zeros().is_square());
         assert!(Matrix::<f32, 6, 6>::zeros().is_square());
+    }
+
+    #[test]
+    fn test_add() {
+        assert_eq!(
+            Matrix::<f32, 4, 2>::zeros() + Matrix::<f32, 4, 2>::zeros(),
+            Matrix::<f32, 4, 2>::zeros()
+        );
+        assert_eq!(
+            Matrix::from([[1., 2.], [3., 4.]]) + &Matrix::from([[-1., -2.], [-3., -4.]]),
+            Matrix::zeros()
+        );
+        assert_eq!(
+            &Matrix::from([[0.5, 1., 1.5], [2., 2.5, 3.]])
+                + Matrix::from([[2.5, 2., 1.5], [1., 0.5, 0.]]),
+            Matrix::full(3.)
+        );
+        assert_eq!(
+            &Matrix::from([[1., 2.5, 0.]]) + &Matrix::from([[3., -4., 0.]]),
+            Matrix::from([[4., -1.5, 0.]])
+        );
+    }
+
+    #[test]
+    fn test_sub() {
+        assert_eq!(
+            Matrix::<f32, 4, 2>::zeros() - Matrix::<f32, 4, 2>::zeros(),
+            Matrix::<f32, 4, 2>::zeros()
+        );
+        assert_eq!(
+            Matrix::from([[1., 2.], [3., 4.]]) - &Matrix::from([[1., 2.], [3., 4.]]),
+            Matrix::zeros()
+        );
+        assert_eq!(
+            &Matrix::from([[0.5, 1., 1.5], [2., 2.5, 3.]])
+                - Matrix::from([[1.5, 2., 2.5], [3., 3.5, 4.]]),
+            Matrix::full(-1.)
+        );
+        assert_eq!(
+            &Matrix::from([[1., 2.5, 0.]]) - &Matrix::from([[3., -4., 0.]]),
+            Matrix::from([[-2., 6.5, 0.]])
+        );
+    }
+
+    #[test]
+    fn test_scalar_mul() {
+        assert_eq!(Matrix::<f32, 4, 2>::zeros() * 7., Matrix::zeros());
+        assert_eq!(Matrix::from([[1., 2.]]) * &3., Matrix::from([[3., 6.]]));
+        assert_eq!(
+            &Matrix::from([[1.], [2.]]) * -2.5,
+            Matrix::from([[-2.5], [-5.]])
+        );
+        assert_eq!(&Matrix::<f32, 4, 2>::full(2.5) * &2.5, Matrix::full(6.25));
     }
 }

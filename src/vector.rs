@@ -1,4 +1,4 @@
-use {crate::field::Field, core::ops::Mul};
+use crate::field::Field;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Vector<K: Field, const N: usize> {
@@ -62,7 +62,7 @@ impl_vector_vector!(&Vector<K, N>, &Vector<K, N>);
 
 macro_rules! impl_vector_scalar {
     ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const N: usize> Mul<$rhs> for $lhs {
+        impl<K: Field, const N: usize> core::ops::Mul<$rhs> for $lhs {
             type Output = Vector<K, N>;
 
             fn mul(self, rhs: $rhs) -> Self::Output {
