@@ -5,6 +5,13 @@ pub struct Matrix<K: Field, const H: usize, const W: usize> {
     values: [[K; W]; H],
 }
 
+#[macro_export]
+macro_rules! m {
+    ($($x:expr),+ $(,)?) => {{
+        $crate::Matrix::from([$($x),*])
+    }};
+}
+
 impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
     pub const fn from(values: [[K; W]; H]) -> Self {
         Self { values }
@@ -106,8 +113,8 @@ mod tests {
     #[test]
     fn test_constructors() {
         assert_eq!(
-            Matrix::from([[1., 2.], [3.14, 4.2]]).values,
-            [[1., 2.], [3.14, 4.2]]
+            Matrix::from([[1., 2.], [3.14, 4.2]]),
+            m![[1., 2.], [3.14, 4.2]]
         );
         assert_eq!(
             Matrix::<f32, 3, 2>::zeros().values,
@@ -137,18 +144,14 @@ mod tests {
             Matrix::<f32, 4, 2>::zeros()
         );
         assert_eq!(
-            Matrix::from([[1., 2.], [3., 4.]]) + &Matrix::from([[-1., -2.], [-3., -4.]]),
+            m![[1., 2.], [3., 4.]] + &m![[-1., -2.], [-3., -4.]],
             Matrix::zeros()
         );
         assert_eq!(
-            &Matrix::from([[0.5, 1., 1.5], [2., 2.5, 3.]])
-                + Matrix::from([[2.5, 2., 1.5], [1., 0.5, 0.]]),
+            &m![[0.5, 1., 1.5], [2., 2.5, 3.]] + m![[2.5, 2., 1.5], [1., 0.5, 0.]],
             Matrix::full(3.)
         );
-        assert_eq!(
-            &Matrix::from([[1., 2.5, 0.]]) + &Matrix::from([[3., -4., 0.]]),
-            Matrix::from([[4., -1.5, 0.]])
-        );
+        assert_eq!(&m![[1., 2.5, 0.]] + &m![[3., -4., 0.]], m![[4., -1.5, 0.]]);
     }
 
     #[test]
@@ -158,28 +161,21 @@ mod tests {
             Matrix::<f32, 4, 2>::zeros()
         );
         assert_eq!(
-            Matrix::from([[1., 2.], [3., 4.]]) - &Matrix::from([[1., 2.], [3., 4.]]),
+            m![[1., 2.], [3., 4.]] - &m![[1., 2.], [3., 4.]],
             Matrix::zeros()
         );
         assert_eq!(
-            &Matrix::from([[0.5, 1., 1.5], [2., 2.5, 3.]])
-                - Matrix::from([[1.5, 2., 2.5], [3., 3.5, 4.]]),
+            &m![[0.5, 1., 1.5], [2., 2.5, 3.]] - m![[1.5, 2., 2.5], [3., 3.5, 4.]],
             Matrix::full(-1.)
         );
-        assert_eq!(
-            &Matrix::from([[1., 2.5, 0.]]) - &Matrix::from([[3., -4., 0.]]),
-            Matrix::from([[-2., 6.5, 0.]])
-        );
+        assert_eq!(&m![[1., 2.5, 0.]] - &m![[3., -4., 0.]], m![[-2., 6.5, 0.]]);
     }
 
     #[test]
     fn test_scalar_mul() {
         assert_eq!(Matrix::<f32, 4, 2>::zeros() * 7., Matrix::zeros());
-        assert_eq!(Matrix::from([[1., 2.]]) * &3., Matrix::from([[3., 6.]]));
-        assert_eq!(
-            &Matrix::from([[1.], [2.]]) * -2.5,
-            Matrix::from([[-2.5], [-5.]])
-        );
+        assert_eq!(m![[1., 2.]] * &3., m![[3., 6.]]);
+        assert_eq!(&m![[1.], [2.]] * -2.5, m![[-2.5], [-5.]]);
         assert_eq!(&Matrix::<f32, 4, 2>::full(2.5) * &2.5, Matrix::full(6.25));
     }
 }
