@@ -10,16 +10,20 @@ impl<K: Field, const N: usize> Vector<K, N> {
         Self { values }
     }
 
+    pub fn zeros() -> Self {
+        Self {
+            values: [K::zero(); N],
+        }
+    }
+
+    pub fn ones() -> Self {
+        Self {
+            values: [K::one(); N],
+        }
+    }
+
     pub const fn len(&self) -> usize {
         N
-    }
-}
-
-impl<K: Field, const N: usize> Default for Vector<K, N> {
-    fn default() -> Self {
-        Self {
-            values: [K::default(); N],
-        }
     }
 }
 
@@ -47,16 +51,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_default() {
-        assert_eq!(Vector::<f32, 3>::default().values, [0., 0., 0.]);
-    }
-
-    #[test]
-    fn test_from() {
+    fn test_constructors() {
         assert_eq!(
             Vector::from([1., 2., 3.14, 4.2]).values,
             [1., 2., 3.14, 4.2]
         );
+        assert_eq!(Vector::<f32, 3>::zeros().values, [0., 0., 0.]);
+        assert_eq!(Vector::<f32, 3>::ones(), Vector::from([1., 1., 1.]));
     }
 
     #[test]
@@ -67,8 +68,8 @@ mod tests {
     #[test]
     fn test_add() {
         assert_eq!(
-            Vector::<f32, 42>::default() + Vector::<f32, 42>::default(),
-            Vector::<f32, 42>::default()
+            Vector::<f32, 42>::zeros() + Vector::<f32, 42>::zeros(),
+            Vector::<f32, 42>::zeros()
         );
         assert_eq!(
             Vector::from([1., 2.]) + &Vector::from([3., 4.]),

@@ -10,6 +10,18 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
         Self { values }
     }
 
+    pub fn zeros() -> Self {
+        Self {
+            values: [[K::zero(); W]; H],
+        }
+    }
+
+    pub fn ones() -> Self {
+        Self {
+            values: [[K::one(); W]; H],
+        }
+    }
+
     pub const fn height(&self) -> usize {
         H
     }
@@ -27,37 +39,29 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
     }
 }
 
-impl<K: Field, const H: usize, const W: usize> Default for Matrix<K, H, W> {
-    fn default() -> Self {
-        Self {
-            values: [[K::default(); W]; H],
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn test_default() {
+    fn test_constructors() {
         assert_eq!(
-            Matrix::<f32, 2, 3>::default().values,
-            [[0., 0., 0.], [0., 0., 0.]]
+            Matrix::from([[1., 2.], [3.14, 4.2]]).values,
+            [[1., 2.], [3.14, 4.2]]
         );
-    }
-
-    #[test]
-    fn test_from() {
         assert_eq!(
-            Matrix::from([[1., 2.], [3.14, 4.2], [5., 6.]]).values,
-            [[1., 2.], [3.14, 4.2], [5., 6.]]
+            Matrix::<f32, 3, 2>::zeros().values,
+            [[0., 0.], [0., 0.], [0., 0.]]
+        );
+        assert_eq!(
+            Matrix::<f32, 2, 3>::ones().values,
+            [[1., 1., 1.], [1., 1., 1.]]
         );
     }
 
     #[test]
     fn test_shape() {
-        let m = Matrix::<f32, 2, 3>::default();
+        let m = Matrix::<f32, 2, 3>::zeros();
         assert_eq!(m.height(), 2);
         assert_eq!(m.width(), 3);
         assert_eq!(m.shape(), (2, 3));
@@ -65,7 +69,7 @@ mod tests {
 
     #[test]
     fn test_is_square() {
-        assert!(!Matrix::<f32, 2, 3>::default().is_square());
-        assert!(Matrix::<f32, 6, 6>::default().is_square());
+        assert!(!Matrix::<f32, 2, 3>::zeros().is_square());
+        assert!(Matrix::<f32, 6, 6>::zeros().is_square());
     }
 }

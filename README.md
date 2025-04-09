@@ -5,7 +5,7 @@
 - functions to go from and to arrays/vectors/matrices
 - `XxxAssign` traits
 - `Neg` trait
-- `ones`/`zeros`/`full`
+- `full`
 - matrix reshape methods? (maybe hard to do const)
 - `f{32,64}::mul_add` everywhere
 - test every method

@@ -1,7 +1,28 @@
 use std::ops::Add;
 
-pub trait Field: Add<Self, Output = Self> + Copy + Default + PartialEq {}
+pub trait Field: Copy + PartialEq + Add<Self, Output = Self> {
+    fn zero() -> Self;
+    fn one() -> Self;
+    fn inverse(self) -> Self;
+}
 
-impl Field for f32 {}
+macro_rules! impl_field {
+    ($field:ty) => {
+        impl Field for $field {
+            fn zero() -> Self {
+                0.
+            }
 
-impl Field for f64 {}
+            fn one() -> Self {
+                1.
+            }
+
+            fn inverse(self) -> Self {
+                Self::one() / self
+            }
+        }
+    };
+}
+
+impl_field!(f32);
+impl_field!(f64);
