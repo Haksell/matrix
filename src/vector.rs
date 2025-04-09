@@ -31,7 +31,7 @@ impl<K: Field, const N: usize> Vector<K, N> {
     }
 }
 
-macro_rules! impl_add_for_vector {
+macro_rules! impl_ops_for_vector {
     ($lhs:ty, $rhs:ty) => {
         impl<K: Field, const N: usize> core::ops::Add<$rhs> for $lhs {
             type Output = Vector<K, N>;
@@ -42,13 +42,23 @@ macro_rules! impl_add_for_vector {
                 }
             }
         }
+
+        impl<K: Field, const N: usize> core::ops::Sub<$rhs> for $lhs {
+            type Output = Vector<K, N>;
+
+            fn sub(self, rhs: $rhs) -> Vector<K, N> {
+                Vector {
+                    values: core::array::from_fn(|i| self.values[i] - rhs.values[i]),
+                }
+            }
+        }
     };
 }
 
-impl_add_for_vector!(Vector<K, N>, Vector<K, N>);
-impl_add_for_vector!(Vector<K, N>, &Vector<K, N>);
-impl_add_for_vector!(&Vector<K, N>, Vector<K, N>);
-impl_add_for_vector!(&Vector<K, N>, &Vector<K, N>);
+impl_ops_for_vector!(Vector<K, N>, Vector<K, N>);
+impl_ops_for_vector!(Vector<K, N>, &Vector<K, N>);
+impl_ops_for_vector!(&Vector<K, N>, Vector<K, N>);
+impl_ops_for_vector!(&Vector<K, N>, &Vector<K, N>);
 
 #[cfg(test)]
 mod tests {
@@ -86,6 +96,26 @@ mod tests {
         assert_eq!(
             &Vector::from([1., 2.5, 0.]) + &Vector::from([3., -4., 0.]),
             Vector::from([4., -1.5, 0.])
+        );
+    }
+
+    #[test]
+    fn test_sub() {
+        assert_eq!(
+            Vector::<f32, 42>::zeros() - Vector::<f32, 42>::zeros(),
+            Vector::<f32, 42>::zeros()
+        );
+        assert_eq!(
+            Vector::from([1., 2.]) - &Vector::from([3., 4.]),
+            Vector::from([-2., -2.])
+        );
+        assert_eq!(
+            &Vector::from([1., 2.]) - Vector::from([3., 4.]),
+            Vector::from([-2., -2.])
+        );
+        assert_eq!(
+            &Vector::from([1., 2.5, 0.]) - &Vector::from([3., -4., 0.]),
+            Vector::from([-2., 6.5, 0.])
         );
     }
 }
