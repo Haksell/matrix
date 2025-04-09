@@ -7,6 +7,7 @@
 - `Matrix::identity`
 - `XxxAssign` traits
 - index + indexmut traits
+- transpose
 - `Neg` trait
 - matrix reshape methods? (maybe hard to do const)
 - `f{32,64}::mul_add` everywhere

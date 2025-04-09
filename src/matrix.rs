@@ -1,3 +1,5 @@
+use core::ops::Index;
+
 use crate::field::Field;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -49,6 +51,14 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
 
     pub const fn is_square(&self) -> bool {
         H == W
+    }
+}
+
+impl<K: Field, const H: usize, const W: usize> Index<(usize, usize)> for Matrix<K, H, W> {
+    type Output = K;
+
+    fn index(&self, (y, x): (usize, usize)) -> &Self::Output {
+        &self.values[y][x]
     }
 }
 
@@ -121,6 +131,31 @@ mod tests {
             [[0., 0.], [0., 0.], [0., 0.]]
         );
         assert_eq!(Matrix::<f32, 2, 3>::ones(), Matrix::full(1.));
+    }
+
+    #[test]
+    fn test_index() {
+        let m = m![[0.25, 0.5, 1.], [2., 4., 8.]];
+        assert_eq!(m[(0, 0)], 0.25);
+        assert_eq!(m[(0, 1)], 0.5);
+        assert_eq!(m[(0, 2)], 1.);
+        assert_eq!(m[(1, 0)], 2.);
+        assert_eq!(m[(1, 1)], 4.);
+        assert_eq!(m[(1, 2)], 8.);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_index_invalid_row() {
+        let m = m![[0.25, 0.5, 1.], [2., 4., 8.]];
+        m[(2, 0)];
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_index_invalid_col() {
+        let m = m![[0.25, 0.5, 1.], [2., 4., 8.]];
+        m[(0, 4)];
     }
 
     #[test]

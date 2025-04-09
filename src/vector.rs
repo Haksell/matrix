@@ -122,7 +122,7 @@ mod tests {
     #[should_panic]
     fn test_index_invalid() {
         let v = v![1., 2., 3.];
-        assert_eq!(v[3], 1.);
+        v[3];
     }
 
     #[test]
