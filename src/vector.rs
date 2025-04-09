@@ -1,4 +1,4 @@
-use crate::field::Field;
+use {crate::field::Field, core::ops::Mul};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Vector<K: Field, const N: usize> {
@@ -31,7 +31,7 @@ impl<K: Field, const N: usize> Vector<K, N> {
     }
 }
 
-macro_rules! impl_ops_for_vector {
+macro_rules! impl_vector_vector {
     ($lhs:ty, $rhs:ty) => {
         impl<K: Field, const N: usize> core::ops::Add<$rhs> for $lhs {
             type Output = Vector<K, N>;
@@ -55,10 +55,29 @@ macro_rules! impl_ops_for_vector {
     };
 }
 
-impl_ops_for_vector!(Vector<K, N>, Vector<K, N>);
-impl_ops_for_vector!(Vector<K, N>, &Vector<K, N>);
-impl_ops_for_vector!(&Vector<K, N>, Vector<K, N>);
-impl_ops_for_vector!(&Vector<K, N>, &Vector<K, N>);
+impl_vector_vector!(Vector<K, N>, Vector<K, N>);
+impl_vector_vector!(Vector<K, N>, &Vector<K, N>);
+impl_vector_vector!(&Vector<K, N>, Vector<K, N>);
+impl_vector_vector!(&Vector<K, N>, &Vector<K, N>);
+
+macro_rules! impl_vector_scalar {
+    ($lhs:ty, $rhs:ty) => {
+        impl<K: Field, const N: usize> Mul<$rhs> for $lhs {
+            type Output = Vector<K, N>;
+
+            fn mul(self, rhs: $rhs) -> Self::Output {
+                Vector {
+                    values: core::array::from_fn(|i| self.values[i] * rhs),
+                }
+            }
+        }
+    };
+}
+
+impl_vector_scalar!(Vector<K, N>, K);
+impl_vector_scalar!(&Vector<K, N>, K);
+impl_vector_scalar!(Vector<K, N>, &K);
+impl_vector_scalar!(&Vector<K, N>, &K);
 
 #[cfg(test)]
 mod tests {
@@ -116,6 +135,17 @@ mod tests {
         assert_eq!(
             &Vector::from([1., 2.5, 0.]) - &Vector::from([3., -4., 0.]),
             Vector::from([-2., 6.5, 0.])
+        );
+    }
+
+    #[test]
+    fn test_scalar_mul() {
+        assert_eq!(Vector::<f32, 42>::zeros() * 7., Vector::zeros());
+        assert_eq!(Vector::from([1., 2.]) * &3., Vector::from([3., 6.]));
+        assert_eq!(&Vector::from([1., 2.]) * -2.5, Vector::from([-2.5, -5.]));
+        assert_eq!(
+            &Vector::from([1., 2.5, 0.]) * &0.,
+            Vector::from([0., 0., 0.])
         );
     }
 }

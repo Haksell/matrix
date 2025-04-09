@@ -1,6 +1,15 @@
-use std::ops::{Add, Sub};
+use core::ops::{Add, Mul, Sub};
 
-pub trait Field: Copy + PartialEq + Add<Self, Output = Self> + Sub<Self, Output = Self> {
+pub trait Field:
+    Copy
+    + PartialEq
+    + Add<Self, Output = Self>
+    + for<'a> Add<&'a Self, Output = Self>
+    + Sub<Self, Output = Self>
+    + for<'a> Sub<&'a Self, Output = Self>
+    + Mul<Self, Output = Self>
+    + for<'a> Mul<&'a Self, Output = Self>
+{
     fn zero() -> Self;
     fn one() -> Self;
     fn inverse(self) -> Self;

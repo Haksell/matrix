@@ -3,7 +3,9 @@
 ## todo
 
 - functions to go from and to arrays/vectors/matrices
+- better names for macros
 - `XxxAssign` traits
+- index traits
 - `Neg` trait
 - matrix reshape methods? (maybe hard to do const)
 - `f{32,64}::mul_add` everywhere
