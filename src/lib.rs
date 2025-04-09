@@ -6,10 +6,11 @@ mod field;
 mod matrix;
 mod vector;
 
-#[cfg(test)]
-mod is_close;
-
-pub use {field::Field, matrix::Matrix, vector::Vector};
+pub use {
+    field::{Field, IsClose},
+    matrix::Matrix,
+    vector::Vector,
+};
 
 pub fn linear_combination<K: Field, const N: usize>(
     vecs: &[Vector<K, N>],
@@ -30,7 +31,7 @@ pub fn lerp<V: Mul<f32, Output = V> + Add<V, Output = V>>(u: V, v: V, t: f32) ->
 
 #[cfg(test)]
 mod tests {
-    use {super::*, crate::is_close::IsClose as _};
+    use super::*;
 
     #[test]
     fn test_linear_combination() {
