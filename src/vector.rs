@@ -64,7 +64,6 @@ mod tests {
         assert_eq!(Vector::from([1., 2., 3., 4.]).len(), 4);
     }
 
-    // TODO: more tests
     #[test]
     fn test_add() {
         assert_eq!(
