@@ -1,4 +1,7 @@
-use core::ops::{Add, Mul, Sub};
+use core::{
+    iter::Sum,
+    ops::{Add, Mul, Sub},
+};
 
 pub trait Field:
     Copy
@@ -9,8 +12,8 @@ pub trait Field:
     + for<'a> Sub<&'a Self, Output = Self>
     + Mul<Self, Output = Self>
     + for<'a> Mul<&'a Self, Output = Self>
-    + std::iter::Sum<Self>
-    + for<'a> std::iter::Sum<&'a Self>
+    + Sum<Self>
+    + for<'a> Sum<&'a Self>
 {
     fn zero() -> Self;
     fn one() -> Self;

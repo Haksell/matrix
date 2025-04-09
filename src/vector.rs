@@ -1,4 +1,4 @@
-use crate::field::Field;
+use {crate::field::Field, core::ops::Index};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Vector<K: Field, const N: usize> {
@@ -35,6 +35,14 @@ impl<K: Field, const N: usize> Vector<K, N> {
 
     pub const fn len(&self) -> usize {
         N
+    }
+}
+
+impl<K: Field, const N: usize> Index<usize> for Vector<K, N> {
+    type Output = K;
+
+    fn index(&self, i: usize) -> &Self::Output {
+        &self.values[i]
     }
 }
 
@@ -100,6 +108,21 @@ mod tests {
     #[test]
     fn test_len() {
         assert_eq!(v![1., 2., 3., 4.].len(), 4);
+    }
+
+    #[test]
+    fn test_index() {
+        let v = v![1., 2., 3.];
+        assert_eq!(v[0], 1.);
+        assert_eq!(v[1], 2.);
+        assert_eq!(v[2], 3.);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_index_invalid() {
+        let v = v![1., 2., 3.];
+        assert_eq!(v[3], 1.);
     }
 
     #[test]
