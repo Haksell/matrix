@@ -1,11 +1,8 @@
 target/
+src/main.rs
+
 __pycache__/
 .coverage/
 .pytest_cache/
 main.py
 matrix_display
-
-
-# Added by cargo
-
-/target

@@ -5,6 +5,13 @@ pub struct Vector<K: Field, const N: usize> {
     values: [K; N],
 }
 
+#[macro_export]
+macro_rules! v {
+    ($($x:expr),+ $(,)?) => {{
+        $crate::Vector::from([$($x),*])
+    }};
+}
+
 impl<K: Field, const N: usize> Vector<K, N> {
     pub const fn from(values: [K; N]) -> Self {
         Self { values }
@@ -85,17 +92,14 @@ mod tests {
 
     #[test]
     fn test_constructors() {
-        assert_eq!(
-            Vector::from([1., 2., 3.14, 4.2]).values,
-            [1., 2., 3.14, 4.2]
-        );
+        assert_eq!(Vector::from([1., 2., 3.14, 4.2]), v![1., 2., 3.14, 4.2]);
         assert_eq!(Vector::<f32, 3>::zeros().values, [0., 0., 0.]);
         assert_eq!(Vector::<f32, 3>::ones(), Vector::full(1.));
     }
 
     #[test]
     fn test_len() {
-        assert_eq!(Vector::from([1., 2., 3., 4.]).len(), 4);
+        assert_eq!(v![1., 2., 3., 4.].len(), 4);
     }
 
     #[test]
@@ -104,18 +108,9 @@ mod tests {
             Vector::<f32, 42>::zeros() + Vector::<f32, 42>::zeros(),
             Vector::<f32, 42>::zeros()
         );
-        assert_eq!(
-            Vector::from([1., 2.]) + &Vector::from([3., 4.]),
-            Vector::from([4., 6.])
-        );
-        assert_eq!(
-            &Vector::from([1., 2.]) + Vector::from([3., 4.]),
-            Vector::from([4., 6.])
-        );
-        assert_eq!(
-            &Vector::from([1., 2.5, 0.]) + &Vector::from([3., -4., 0.]),
-            Vector::from([4., -1.5, 0.])
-        );
+        assert_eq!(v![1., 2.] + &v![3., 4.], v![4., 6.]);
+        assert_eq!(&v![1., 2.] + v![3., 4.], v![4., 6.]);
+        assert_eq!(&v![1., 2.5, 0.] + &v![3., -4., 0.], v![4., -1.5, 0.]);
     }
 
     #[test]
@@ -124,28 +119,16 @@ mod tests {
             Vector::<f32, 42>::zeros() - Vector::<f32, 42>::zeros(),
             Vector::<f32, 42>::zeros()
         );
-        assert_eq!(
-            Vector::from([1., 2.]) - &Vector::from([3., 4.]),
-            Vector::from([-2., -2.])
-        );
-        assert_eq!(
-            &Vector::from([1., 2.]) - Vector::from([3., 4.]),
-            Vector::from([-2., -2.])
-        );
-        assert_eq!(
-            &Vector::from([1., 2.5, 0.]) - &Vector::from([3., -4., 0.]),
-            Vector::from([-2., 6.5, 0.])
-        );
+        assert_eq!(v![1., 2.] - &v![3., 4.], v![-2., -2.]);
+        assert_eq!(&v![1., 2.] - v![3., 4.], v![-2., -2.]);
+        assert_eq!(&v![1., 2.5, 0.] - &v![3., -4., 0.], v![-2., 6.5, 0.]);
     }
 
     #[test]
     fn test_scalar_mul() {
         assert_eq!(Vector::<f32, 42>::zeros() * 7., Vector::zeros());
-        assert_eq!(Vector::from([1., 2.]) * &3., Vector::from([3., 6.]));
-        assert_eq!(&Vector::from([1., 2.]) * -2.5, Vector::from([-2.5, -5.]));
-        assert_eq!(
-            &Vector::from([1., 2.5, 0.]) * &0.,
-            Vector::from([0., 0., 0.])
-        );
+        assert_eq!(v![1., 2.] * &3., v![3., 6.]);
+        assert_eq!(&v![1., 2.] * -2.5, v![-2.5, -5.]);
+        assert_eq!(&v![1., 2.5, 0.] * &0., v![0., 0., 0.]);
     }
 }
