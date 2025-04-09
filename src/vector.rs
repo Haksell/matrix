@@ -80,8 +80,8 @@ mod tests {
             Vector::from([4., 6.])
         );
         assert_eq!(
-            &Vector::from([1., 2.5]) + &Vector::from([3., -4.]),
-            Vector::from([4., -1.5])
+            &Vector::from([1., 2.5, 0.]) + &Vector::from([3., -4., 0.]),
+            Vector::from([4., -1.5, 0.])
         );
     }
 }
