@@ -95,8 +95,8 @@ macro_rules! impl_matrix_scalar {
 }
 
 impl_matrix_scalar!(Matrix<K, H, W>, K);
-impl_matrix_scalar!(&Matrix<K, H, W>, K);
 impl_matrix_scalar!(Matrix<K, H, W>, &K);
+impl_matrix_scalar!(&Matrix<K, H, W>, K);
 impl_matrix_scalar!(&Matrix<K, H, W>, &K);
 
 #[cfg(test)]
