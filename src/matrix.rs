@@ -5,14 +5,6 @@ pub struct Matrix<K: Field, const H: usize, const W: usize> {
     values: [[K; W]; H],
 }
 
-impl<K: Field, const H: usize, const W: usize> Default for Matrix<K, H, W> {
-    fn default() -> Self {
-        Self {
-            values: [[K::default(); W]; H],
-        }
-    }
-}
-
 impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
     pub const fn height(&self) -> usize {
         H
@@ -28,6 +20,14 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
 
     pub const fn is_square(&self) -> bool {
         H == W
+    }
+}
+
+impl<K: Field, const H: usize, const W: usize> Default for Matrix<K, H, W> {
+    fn default() -> Self {
+        Self {
+            values: [[K::default(); W]; H],
+        }
     }
 }
 

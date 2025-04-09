@@ -1,4 +1,6 @@
-pub trait Field: Copy + Default + PartialEq {}
+use std::ops::Add;
+
+pub trait Field: Add<Self, Output = Self> + Copy + Default + PartialEq {}
 
 impl Field for f32 {}
 
