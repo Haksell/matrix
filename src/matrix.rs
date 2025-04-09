@@ -22,6 +22,12 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
         }
     }
 
+    pub fn full(value: K) -> Self {
+        Self {
+            values: [[value; W]; H],
+        }
+    }
+
     pub const fn height(&self) -> usize {
         H
     }
@@ -53,10 +59,7 @@ mod tests {
             Matrix::<f32, 3, 2>::zeros().values,
             [[0., 0.], [0., 0.], [0., 0.]]
         );
-        assert_eq!(
-            Matrix::<f32, 2, 3>::ones(),
-            Matrix::from([[1., 1., 1.], [1., 1., 1.]])
-        );
+        assert_eq!(Matrix::<f32, 2, 3>::ones(), Matrix::full(1.));
     }
 
     #[test]

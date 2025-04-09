@@ -22,6 +22,10 @@ impl<K: Field, const N: usize> Vector<K, N> {
         }
     }
 
+    pub fn full(value: K) -> Self {
+        Self { values: [value; N] }
+    }
+
     pub const fn len(&self) -> usize {
         N
     }
@@ -57,7 +61,7 @@ mod tests {
             [1., 2., 3.14, 4.2]
         );
         assert_eq!(Vector::<f32, 3>::zeros().values, [0., 0., 0.]);
-        assert_eq!(Vector::<f32, 3>::ones(), Vector::from([1., 1., 1.]));
+        assert_eq!(Vector::<f32, 3>::ones(), Vector::full(1.));
     }
 
     #[test]
