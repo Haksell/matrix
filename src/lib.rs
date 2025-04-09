@@ -9,12 +9,11 @@ pub fn linear_combination<K: Field, const N: usize>(
     coefs: &[K],
 ) -> Vector<K, N> {
     assert_eq!(vecs.len(), coefs.len());
-    let values = core::array::from_fn(|i| {
+    Vector::from(core::array::from_fn(|i| {
         std::iter::zip(vecs, coefs)
             .map(|(v, c)| v[i] * c)
             .sum::<K>()
-    });
-    Vector::from(values)
+    }))
 }
 
 #[cfg(test)]
