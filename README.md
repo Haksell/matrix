@@ -18,3 +18,7 @@
 - `Matrix` trait with `SMatrix` and `DMatrix` implementations (with macros)?
 - rm README.md
 - puuuuusssssshhhhhhhhhhh
+
+## resources
+
+- https://math.stackexchange.com/a/1218620
