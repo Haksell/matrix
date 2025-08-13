@@ -52,7 +52,7 @@ impl<K: Field, const N: usize> Vector<K, N> {
     //     self.values
     //         .iter()
     //         .map(|x| x.abs())
-    //         .max_by()
+    //         .max_by(|x, y| K::max(x, y))
     //         .unwrap_or(K::zero())
     // }
 }

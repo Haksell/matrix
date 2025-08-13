@@ -2,8 +2,11 @@
 
 ## todo
 
+- max trait for norm inf
 - functions to go from and to arrays/vectors/matrices
 - `Matrix::identity`
+- complex: dot product is inner product using conjugate transpose
+- complex: norms are also weird
 - `XxxAssign` traits
 - index + indexmut traits
 - transpose
@@ -15,8 +18,3 @@
 - `Matrix` trait with `SMatrix` and `DMatrix` implementations (with macros)?
 - rm README.md
 - puuuuusssssshhhhhhhhhhh
-
-## complex
-
-- dot product is inner product using conjugate transpose
-- norms are also weird
