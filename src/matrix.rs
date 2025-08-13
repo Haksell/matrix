@@ -1,6 +1,4 @@
-use core::ops::Index;
-
-use crate::field::Field;
+use {crate::field::Field, core::ops::Index};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Matrix<K: Field, const H: usize, const W: usize> {
