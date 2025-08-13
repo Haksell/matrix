@@ -1,4 +1,4 @@
-use {crate::field::Field, core::ops::Index};
+use {crate::field::Field, std::ops::Index};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Matrix<K: Field, const H: usize, const W: usize> {
@@ -62,25 +62,25 @@ impl<K: Field, const H: usize, const W: usize> Index<(usize, usize)> for Matrix<
 
 macro_rules! impl_matrix_matrix {
     ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const H: usize, const W: usize> core::ops::Add<$rhs> for $lhs {
+        impl<K: Field, const H: usize, const W: usize> std::ops::Add<$rhs> for $lhs {
             type Output = Matrix<K, H, W>;
 
             fn add(self, rhs: $rhs) -> Matrix<K, H, W> {
                 Matrix {
-                    values: core::array::from_fn(|y| {
-                        core::array::from_fn(|x| self.values[y][x] + rhs.values[y][x])
+                    values: std::array::from_fn(|y| {
+                        std::array::from_fn(|x| self.values[y][x] + rhs.values[y][x])
                     }),
                 }
             }
         }
 
-        impl<K: Field, const H: usize, const W: usize> core::ops::Sub<$rhs> for $lhs {
+        impl<K: Field, const H: usize, const W: usize> std::ops::Sub<$rhs> for $lhs {
             type Output = Matrix<K, H, W>;
 
             fn sub(self, rhs: $rhs) -> Matrix<K, H, W> {
                 Matrix {
-                    values: core::array::from_fn(|y| {
-                        core::array::from_fn(|x| self.values[y][x] - rhs.values[y][x])
+                    values: std::array::from_fn(|y| {
+                        std::array::from_fn(|x| self.values[y][x] - rhs.values[y][x])
                     }),
                 }
             }
@@ -95,13 +95,13 @@ impl_matrix_matrix!(&Matrix<K, H, W>, &Matrix<K, H, W>);
 
 macro_rules! impl_matrix_scalar {
     ($matrix:ty, $field:ty) => {
-        impl<K: Field, const H: usize, const W: usize> core::ops::Mul<$field> for $matrix {
+        impl<K: Field, const H: usize, const W: usize> std::ops::Mul<$field> for $matrix {
             type Output = Matrix<K, H, W>;
 
             fn mul(self, scalar: $field) -> Self::Output {
                 Matrix {
-                    values: core::array::from_fn(|y| {
-                        core::array::from_fn(|x| self.values[y][x] * scalar)
+                    values: std::array::from_fn(|y| {
+                        std::array::from_fn(|x| self.values[y][x] * scalar)
                     }),
                 }
             }

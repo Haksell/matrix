@@ -1,4 +1,4 @@
-use {crate::field::Field, core::ops::Index};
+use {crate::field::Field, std::ops::Index};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Vector<K: Field, const N: usize> {
@@ -36,7 +36,31 @@ impl<K: Field, const N: usize> Vector<K, N> {
     pub const fn len(&self) -> usize {
         N
     }
+
+    // TODO: norm Vector<K>.norm_x() -> K
+    // TODO: norm Vector<Complex<K>>.norm_x() -> K (so not in this impl block)
+
+    pub fn norm_1(&self) -> K {
+        self.values.iter().map(|x| x.abs()).sum()
+    }
+
+    pub fn norm(&self) -> K {
+        self.values.iter().map(|&x| x * x).sum::<K>().sqrt()
+    }
+
+    // pub fn norm_inf(&self) -> K {
+    //     self.values
+    //         .iter()
+    //         .map(|x| x.abs())
+    //         .max_by()
+    //         .unwrap_or(K::zero())
+    // }
 }
+
+/*
+a+bi * a-bi
+a*a - b*b
+*/
 
 impl<K: Field, const N: usize> Index<usize> for Vector<K, N> {
     type Output = K;
@@ -48,27 +72,27 @@ impl<K: Field, const N: usize> Index<usize> for Vector<K, N> {
 
 macro_rules! impl_vector_vector {
     ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const N: usize> core::ops::Add<$rhs> for $lhs {
+        impl<K: Field, const N: usize> std::ops::Add<$rhs> for $lhs {
             type Output = Vector<K, N>;
 
             fn add(self, rhs: $rhs) -> Vector<K, N> {
                 Vector {
-                    values: core::array::from_fn(|i| self.values[i] + rhs.values[i]),
+                    values: std::array::from_fn(|i| self.values[i] + rhs.values[i]),
                 }
             }
         }
 
-        impl<K: Field, const N: usize> core::ops::Sub<$rhs> for $lhs {
+        impl<K: Field, const N: usize> std::ops::Sub<$rhs> for $lhs {
             type Output = Vector<K, N>;
 
             fn sub(self, rhs: $rhs) -> Vector<K, N> {
                 Vector {
-                    values: core::array::from_fn(|i| self.values[i] - rhs.values[i]),
+                    values: std::array::from_fn(|i| self.values[i] - rhs.values[i]),
                 }
             }
         }
 
-        impl<K: Field, const N: usize> core::ops::Mul<$rhs> for $lhs {
+        impl<K: Field, const N: usize> std::ops::Mul<$rhs> for $lhs {
             type Output = K;
 
             fn mul(self, rhs: $rhs) -> Self::Output {
@@ -85,12 +109,12 @@ impl_vector_vector!(&Vector<K, N>, &Vector<K, N>);
 
 macro_rules! impl_vector_scalar {
     ($vector:ty, $field:ty) => {
-        impl<K: Field, const N: usize> core::ops::Mul<$field> for $vector {
+        impl<K: Field, const N: usize> std::ops::Mul<$field> for $vector {
             type Output = Vector<K, N>;
 
             fn mul(self, scalar: $field) -> Self::Output {
                 Vector {
-                    values: core::array::from_fn(|i| self.values[i] * scalar),
+                    values: std::array::from_fn(|i| self.values[i] * scalar),
                 }
             }
         }

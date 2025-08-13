@@ -1,5 +1,3 @@
-#![no_std]
-
 mod field;
 mod matrix;
 mod vector;
@@ -10,15 +8,15 @@ pub use {
     vector::Vector,
 };
 
-use core::ops::{Add, Mul};
+use std::ops::{Add, Mul};
 
 pub fn linear_combination<K: Field, const N: usize>(
     vecs: &[Vector<K, N>],
     coefs: &[K],
 ) -> Vector<K, N> {
     debug_assert_eq!(vecs.len(), coefs.len());
-    Vector::from(core::array::from_fn(|i| {
-        core::iter::zip(vecs, coefs)
+    Vector::from(std::array::from_fn(|i| {
+        std::iter::zip(vecs, coefs)
             .map(|(v, c)| v[i] * c)
             .sum::<K>()
     }))

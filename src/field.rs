@@ -1,10 +1,18 @@
-use core::{
+use std::{
     iter::Sum,
     ops::{Add, Mul, Sub},
 };
 
 pub trait IsClose {
-    fn is_close(&self, rhs: &Self) -> bool;
+    fn is_close(self, rhs: &Self) -> bool;
+}
+
+pub trait Abs {
+    fn abs(self) -> Self;
+}
+
+pub trait Sqrt {
+    fn sqrt(self) -> Self;
 }
 
 pub trait Field:
@@ -19,29 +27,45 @@ pub trait Field:
     + Sum<Self>
     + for<'a> Sum<&'a Self>
     + IsClose
+    + Abs
+    + Sqrt
 {
     fn zero() -> Self;
     fn one() -> Self;
     fn inverse(self) -> Self;
+    // TODO: conjugate
+    // TODO: conjugate_mul (re*re-im*im for complex), just mul for floats
 }
 
 macro_rules! impl_field {
     ($field:ty) => {
         impl IsClose for $field {
-            fn is_close(&self, rhs: &Self) -> bool {
+            fn is_close(self, rhs: &Self) -> bool {
                 (self - rhs).abs() < 1e-7
             }
         }
 
         impl<const N: usize> IsClose for crate::Vector<$field, N> {
-            fn is_close(&self, rhs: &Self) -> bool {
+            fn is_close(self, rhs: &Self) -> bool {
                 (0..N).all(|i| self[i].is_close(&rhs[i]))
             }
         }
 
         impl<const H: usize, const W: usize> IsClose for crate::Matrix<$field, H, W> {
-            fn is_close(&self, rhs: &Self) -> bool {
+            fn is_close(self, rhs: &Self) -> bool {
                 (0..H).all(|y| (0..W).all(|x| self[(y, x)].is_close(&rhs[(y, x)])))
+            }
+        }
+
+        impl Abs for $field {
+            fn abs(self) -> Self {
+                <$field>::abs(self)
+            }
+        }
+
+        impl Sqrt for $field {
+            fn sqrt(self) -> Self {
+                <$field>::sqrt(self)
             }
         }
 
