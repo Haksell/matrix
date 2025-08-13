@@ -57,11 +57,6 @@ impl<K: Field, const N: usize> Vector<K, N> {
     // }
 }
 
-/*
-a+bi * a-bi
-a*a - b*b
-*/
-
 impl<K: Field, const N: usize> Index<usize> for Vector<K, N> {
     type Output = K;
 
