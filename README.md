@@ -13,3 +13,5 @@
 - `f{32,64}::mul_add` everywhere
 - test every method
 - `Matrix` trait with `SMatrix` and `DMatrix` implementations (with macros)?
+- rm README.md
+- puuuuusssssshhhhhhhhhhh

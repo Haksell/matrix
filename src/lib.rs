@@ -16,7 +16,7 @@ pub fn linear_combination<K: Field, const N: usize>(
     vecs: &[Vector<K, N>],
     coefs: &[K],
 ) -> Vector<K, N> {
-    assert_eq!(vecs.len(), coefs.len());
+    debug_assert_eq!(vecs.len(), coefs.len());
     Vector::from(core::array::from_fn(|i| {
         core::iter::zip(vecs, coefs)
             .map(|(v, c)| v[i] * c)
@@ -25,7 +25,7 @@ pub fn linear_combination<K: Field, const N: usize>(
 }
 
 pub fn lerp<V: Mul<f32, Output = V> + Add<V, Output = V>>(u: V, v: V, t: f32) -> V {
-    assert!(0. <= t && t <= 1.); // the subject is unclear
+    debug_assert!(0. <= t && t <= 1.); // the subject is unclear
     u * (1. - t) + v * t
 }
 
