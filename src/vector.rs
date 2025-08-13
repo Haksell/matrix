@@ -84,11 +84,11 @@ impl_vector_vector!(&Vector<K, N>, Vector<K, N>);
 impl_vector_vector!(&Vector<K, N>, &Vector<K, N>);
 
 macro_rules! impl_vector_scalar {
-    ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const N: usize> core::ops::Mul<$rhs> for $lhs {
+    ($vector:ty, $field:ty) => {
+        impl<K: Field, const N: usize> core::ops::Mul<$field> for $vector {
             type Output = Vector<K, N>;
 
-            fn mul(self, rhs: $rhs) -> Self::Output {
+            fn mul(self, rhs: $field) -> Self::Output {
                 Vector {
                     values: core::array::from_fn(|i| self.values[i] * rhs),
                 }
