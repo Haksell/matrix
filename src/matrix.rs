@@ -94,14 +94,14 @@ impl_matrix_matrix!(&Matrix<K, H, W>, Matrix<K, H, W>);
 impl_matrix_matrix!(&Matrix<K, H, W>, &Matrix<K, H, W>);
 
 macro_rules! impl_matrix_scalar {
-    ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const H: usize, const W: usize> core::ops::Mul<$rhs> for $lhs {
+    ($matrix:ty, $field:ty) => {
+        impl<K: Field, const H: usize, const W: usize> core::ops::Mul<$field> for $matrix {
             type Output = Matrix<K, H, W>;
 
-            fn mul(self, rhs: $rhs) -> Self::Output {
+            fn mul(self, scalar: $field) -> Self::Output {
                 Matrix {
                     values: core::array::from_fn(|y| {
-                        core::array::from_fn(|x| self.values[y][x] * rhs)
+                        core::array::from_fn(|x| self.values[y][x] * scalar)
                     }),
                 }
             }

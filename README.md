@@ -15,3 +15,8 @@
 - `Matrix` trait with `SMatrix` and `DMatrix` implementations (with macros)?
 - rm README.md
 - puuuuusssssshhhhhhhhhhh
+
+## complex
+
+- dot product is inner product using conjugate transpose
+- norms are also weird
