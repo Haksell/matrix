@@ -146,14 +146,14 @@ mod tests {
     #[should_panic]
     fn test_index_invalid_row() {
         let m = m![[0.25, 0.5, 1.], [2., 4., 8.]];
-        m[(2, 0)];
+        let _: f64 = m[(2, 0)];
     }
 
     #[test]
     #[should_panic]
     fn test_index_invalid_col() {
         let m = m![[0.25, 0.5, 1.], [2., 4., 8.]];
-        m[(0, 4)];
+        let _: f64 = m[(0, 4)];
     }
 
     #[test]

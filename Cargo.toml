@@ -19,6 +19,7 @@ suspicious = { level = "deny", priority = -1 }
 
 # deactivate useless lints
 allow_attributes_without_reason = "allow"
+approx_constant = "allow"
 arbitrary_source_item_ordering = "allow"
 arithmetic_side_effects = "allow"
 blanket_clippy_restriction_lints = "allow"
@@ -35,5 +36,7 @@ min_ident_chars = "allow"
 missing_docs_in_private_items = "allow"
 multiple_crate_versions = "allow"
 pattern_type_mismatch = "allow"
+redundant_test_prefix = "allow"
+should_panic_without_expect = "allow"
 single_call_fn = "allow"
 undocumented_unsafe_blocks = "allow"

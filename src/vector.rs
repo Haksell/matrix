@@ -149,7 +149,7 @@ mod tests {
     #[should_panic]
     fn test_index_invalid() {
         let v = v![1., 2., 3.];
-        v[3];
+        let _: f64 = v[3];
     }
 
     #[test]
