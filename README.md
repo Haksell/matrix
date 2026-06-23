@@ -19,6 +19,13 @@
 - rm README.md
 - puuuuusssssshhhhhhhhhhh
 
+## wtf
+
+- (K::(zero|one)() -> K::(ZERO|ONE))
+- `type Real = f32`
+- `times_conjugate`
+- conjugate the left in dot product
+
 ## resources
 
 - https://math.stackexchange.com/a/1218620
