@@ -88,3 +88,5 @@ macro_rules! impl_field {
 
 impl_field!(f32);
 impl_field!(f64);
+// TODO: impl for Complex<Field>
+// TODO: impl for PrimeField
