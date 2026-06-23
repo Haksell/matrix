@@ -1,7 +1,7 @@
 # matrix
 
-## todo
-
+- conjugate the left in dot product (`A† B`)
+- complex norm: https://math.stackexchange.com/a/1218620
 - max trait for norm inf
 - functions to go from and to arrays/vectors/matrices
 - `Matrix::identity`
@@ -16,15 +16,6 @@
 - `f{32,64}::mul_add` everywhere
 - test every method
 - `Matrix` trait with `SMatrix` and `DMatrix` implementations (with macros)?
-- rm README.md
-- puuuuusssssshhhhhhhhhhh
-
-## wtf
-
 - `type Real = f32`
 - `times_conjugate`
-- conjugate the left in dot product (`A† B`)
-
-## resources
-
-- https://math.stackexchange.com/a/1218620
+- rm README.md
