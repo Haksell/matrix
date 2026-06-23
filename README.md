@@ -21,7 +21,6 @@
 
 ## wtf
 
-- (K::(zero|one)() -> K::(ZERO|ONE))
 - `type Real = f32`
 - `times_conjugate`
 - conjugate the left in dot product (`A† B`)

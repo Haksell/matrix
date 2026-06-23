@@ -30,10 +30,12 @@ pub trait Field:
     + Abs
     + Sqrt
 {
-    fn zero() -> Self;
-    fn one() -> Self;
+    const ZERO: Self;
+    const ONE: Self;
+
     #[must_use]
     fn inverse(self) -> Self;
+
     // TODO: conjugate
     // TODO: conjugate_mul (re*re-im*im for complex), just mul for floats
 }
@@ -71,16 +73,11 @@ macro_rules! impl_field {
         }
 
         impl Field for $field {
-            fn zero() -> Self {
-                0.
-            }
-
-            fn one() -> Self {
-                1.
-            }
+            const ZERO: Self = 0.;
+            const ONE: Self = 1.;
 
             fn inverse(self) -> Self {
-                Self::one() / self
+                Self::ONE / self
             }
         }
     };

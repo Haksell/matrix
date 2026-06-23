@@ -17,15 +17,15 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
         Self { values }
     }
 
-    pub fn zeros() -> Self {
+    pub const fn zeros() -> Self {
         Self {
-            values: [[K::zero(); W]; H],
+            values: [[K::ZERO; W]; H],
         }
     }
 
-    pub fn ones() -> Self {
+    pub const fn ones() -> Self {
         Self {
-            values: [[K::one(); W]; H],
+            values: [[K::ONE; W]; H],
         }
     }
 

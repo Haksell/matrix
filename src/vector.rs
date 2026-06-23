@@ -17,15 +17,15 @@ impl<K: Field, const N: usize> Vector<K, N> {
         Self { values }
     }
 
-    pub fn zeros() -> Self {
+    pub const fn zeros() -> Self {
         Self {
-            values: [K::zero(); N],
+            values: [K::ZERO; N],
         }
     }
 
-    pub fn ones() -> Self {
+    pub const fn ones() -> Self {
         Self {
-            values: [K::one(); N],
+            values: [K::ONE; N],
         }
     }
 
