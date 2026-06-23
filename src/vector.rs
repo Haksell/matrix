@@ -37,6 +37,10 @@ impl<K: Field, const N: usize> Vector<K, N> {
         N
     }
 
+    pub const fn is_empty(&self) -> bool {
+        N == 0
+    }
+
     // TODO: norm Vector<K>.norm_x() -> K
     // TODO: norm Vector<Complex<K>>.norm_x() -> K (so not in this impl block)
 
@@ -60,34 +64,34 @@ impl<K: Field, const N: usize> Vector<K, N> {
 impl<K: Field, const N: usize> Index<usize> for Vector<K, N> {
     type Output = K;
 
-    fn index(&self, i: usize) -> &Self::Output {
-        &self.values[i]
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.values[index]
     }
 }
 
 macro_rules! impl_vector_vector {
     ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const N: usize> std::ops::Add<$rhs> for $lhs {
+        impl<K: Field, const N: usize> core::ops::Add<$rhs> for $lhs {
             type Output = Vector<K, N>;
 
             fn add(self, rhs: $rhs) -> Vector<K, N> {
                 Vector {
-                    values: std::array::from_fn(|i| self.values[i] + rhs.values[i]),
+                    values: core::array::from_fn(|i| self.values[i] + rhs.values[i]),
                 }
             }
         }
 
-        impl<K: Field, const N: usize> std::ops::Sub<$rhs> for $lhs {
+        impl<K: Field, const N: usize> core::ops::Sub<$rhs> for $lhs {
             type Output = Vector<K, N>;
 
             fn sub(self, rhs: $rhs) -> Vector<K, N> {
                 Vector {
-                    values: std::array::from_fn(|i| self.values[i] - rhs.values[i]),
+                    values: core::array::from_fn(|i| self.values[i] - rhs.values[i]),
                 }
             }
         }
 
-        impl<K: Field, const N: usize> std::ops::Mul<$rhs> for $lhs {
+        impl<K: Field, const N: usize> core::ops::Mul<$rhs> for $lhs {
             type Output = K;
 
             fn mul(self, rhs: $rhs) -> Self::Output {
@@ -104,12 +108,12 @@ impl_vector_vector!(&Vector<K, N>, &Vector<K, N>);
 
 macro_rules! impl_vector_scalar {
     ($vector:ty, $field:ty) => {
-        impl<K: Field, const N: usize> std::ops::Mul<$field> for $vector {
+        impl<K: Field, const N: usize> core::ops::Mul<$field> for $vector {
             type Output = Vector<K, N>;
 
             fn mul(self, scalar: $field) -> Self::Output {
                 Vector {
-                    values: std::array::from_fn(|i| self.values[i] * scalar),
+                    values: core::array::from_fn(|i| self.values[i] * scalar),
                 }
             }
         }
@@ -126,6 +130,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[expect(clippy::float_cmp)]
     fn test_constructors() {
         assert_eq!(Vector::from([1., 2., 3.14, 4.2]), v![1., 2., 3.14, 4.2]);
         assert_eq!(Vector::<f32, 3>::zeros().values, [0., 0., 0.]);
@@ -138,6 +143,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::float_cmp)]
     fn test_index() {
         let v = v![1., 2., 3.];
         assert_eq!(v[0], 1.);
@@ -175,6 +181,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::op_ref)]
     fn test_scalar_mul() {
         assert_eq!(Vector::<f32, 42>::zeros() * 7., Vector::zeros());
         assert_eq!(v![1., 2.] * &3., v![3., 6.]);
@@ -183,6 +190,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::float_cmp)]
     fn test_dot_product() {
         assert_eq!(Vector::<f32, 2>::zeros() * Vector::<f32, 2>::ones(), 0.);
         assert_eq!(&Vector::<f32, 2>::ones() * Vector::<f32, 2>::ones(), 2.);
