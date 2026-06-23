@@ -8,22 +8,24 @@ pub use {
     vector::Vector,
 };
 
-use std::ops::{Add, Mul};
+use core::{
+    array,
+    iter::zip,
+    ops::{Add, Mul},
+};
 
 pub fn linear_combination<K: Field, const N: usize>(
     vecs: &[Vector<K, N>],
     coefs: &[K],
 ) -> Vector<K, N> {
     debug_assert_eq!(vecs.len(), coefs.len());
-    Vector::from(std::array::from_fn(|i| {
-        std::iter::zip(vecs, coefs)
-            .map(|(v, c)| v[i] * c)
-            .sum::<K>()
+    Vector::from(array::from_fn(|i| {
+        zip(vecs, coefs).map(|(v, c)| v[i] * c).sum::<K>()
     }))
 }
 
 pub fn lerp<V: Mul<f32, Output = V> + Add<V, Output = V>>(u: V, v: V, t: f32) -> V {
-    debug_assert!(0. <= t && t <= 1.);
+    debug_assert!((0. ..=1.).contains(&t));
     u * (1. - t) + v * t
 }
 

@@ -1,4 +1,4 @@
-use std::{
+use core::{
     iter::Sum,
     ops::{Add, Mul, Sub},
 };
@@ -32,6 +32,7 @@ pub trait Field:
 {
     fn zero() -> Self;
     fn one() -> Self;
+    #[must_use]
     fn inverse(self) -> Self;
     // TODO: conjugate
     // TODO: conjugate_mul (re*re-im*im for complex), just mul for floats

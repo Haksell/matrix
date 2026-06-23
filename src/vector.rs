@@ -1,6 +1,6 @@
-use {crate::field::Field, std::ops::Index};
+use {crate::field::Field, core::ops::Index};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Vector<K: Field, const N: usize> {
     values: [K; N],
 }
@@ -29,7 +29,7 @@ impl<K: Field, const N: usize> Vector<K, N> {
         }
     }
 
-    pub fn full(value: K) -> Self {
+    pub const fn full(value: K) -> Self {
         Self { values: [value; N] }
     }
 
