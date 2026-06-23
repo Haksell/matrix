@@ -59,6 +59,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::float_cmp)]
     fn test_lerp() {
         assert_eq!(lerp(0., 1., 0.), 0.);
         assert_eq!(lerp(0., 1., 0.5), 0.5);
@@ -72,11 +73,12 @@ mod tests {
                 0.5
             ),
             m![[11., 5.5], [16.5, 22.]]
-        )
+        );
     }
 
     #[test]
     #[should_panic]
+    #[expect(clippy::float_cmp)]
     fn test_lerp_invalid() {
         assert_eq!(lerp(0., 1., 1.1), 0.);
     }
