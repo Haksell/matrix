@@ -1,6 +1,6 @@
-use {crate::field::Field, std::ops::Index};
+use {crate::field::Field, core::ops::Index};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Matrix<K: Field, const H: usize, const W: usize> {
     values: [[K; W]; H],
 }
@@ -29,7 +29,7 @@ impl<K: Field, const H: usize, const W: usize> Matrix<K, H, W> {
         }
     }
 
-    pub fn full(value: K) -> Self {
+    pub const fn full(value: K) -> Self {
         Self {
             values: [[value; W]; H],
         }
@@ -62,25 +62,25 @@ impl<K: Field, const H: usize, const W: usize> Index<(usize, usize)> for Matrix<
 
 macro_rules! impl_matrix_matrix {
     ($lhs:ty, $rhs:ty) => {
-        impl<K: Field, const H: usize, const W: usize> std::ops::Add<$rhs> for $lhs {
+        impl<K: Field, const H: usize, const W: usize> core::ops::Add<$rhs> for $lhs {
             type Output = Matrix<K, H, W>;
 
             fn add(self, rhs: $rhs) -> Matrix<K, H, W> {
                 Matrix {
-                    values: std::array::from_fn(|y| {
-                        std::array::from_fn(|x| self.values[y][x] + rhs.values[y][x])
+                    values: core::array::from_fn(|y| {
+                        core::array::from_fn(|x| self.values[y][x] + rhs.values[y][x])
                     }),
                 }
             }
         }
 
-        impl<K: Field, const H: usize, const W: usize> std::ops::Sub<$rhs> for $lhs {
+        impl<K: Field, const H: usize, const W: usize> core::ops::Sub<$rhs> for $lhs {
             type Output = Matrix<K, H, W>;
 
             fn sub(self, rhs: $rhs) -> Matrix<K, H, W> {
                 Matrix {
-                    values: std::array::from_fn(|y| {
-                        std::array::from_fn(|x| self.values[y][x] - rhs.values[y][x])
+                    values: core::array::from_fn(|y| {
+                        core::array::from_fn(|x| self.values[y][x] - rhs.values[y][x])
                     }),
                 }
             }
@@ -95,13 +95,13 @@ impl_matrix_matrix!(&Matrix<K, H, W>, &Matrix<K, H, W>);
 
 macro_rules! impl_matrix_scalar {
     ($matrix:ty, $field:ty) => {
-        impl<K: Field, const H: usize, const W: usize> std::ops::Mul<$field> for $matrix {
+        impl<K: Field, const H: usize, const W: usize> core::ops::Mul<$field> for $matrix {
             type Output = Matrix<K, H, W>;
 
             fn mul(self, scalar: $field) -> Self::Output {
                 Matrix {
-                    values: std::array::from_fn(|y| {
-                        std::array::from_fn(|x| self.values[y][x] * scalar)
+                    values: core::array::from_fn(|y| {
+                        core::array::from_fn(|x| self.values[y][x] * scalar)
                     }),
                 }
             }
@@ -132,6 +132,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::float_cmp)]
     fn test_index() {
         let m = m![[0.25, 0.5, 1.], [2., 4., 8.]];
         assert_eq!(m[(0, 0)], 0.25);
@@ -205,6 +206,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::op_ref)]
     fn test_scalar_mul() {
         assert_eq!(Matrix::<f32, 4, 2>::zeros() * 7., Matrix::zeros());
         assert_eq!(m![[1., 2.]] * &3., m![[3., 6.]]);

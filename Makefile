@@ -4,7 +4,7 @@ validate:
 	@cargo fmt --all
 	@RUSTFLAGS="--deny warnings" cargo check --all-targets
 	@RUSTFLAGS="--deny warnings" cargo clippy --all-targets
-	@RUSTFLAGS="--deny warnings" cargo test --all-targets --release
+	@RUSTFLAGS="--deny warnings" cargo test --all-targets
 
 clean:
 	cargo clean
